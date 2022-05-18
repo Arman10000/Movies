@@ -2,25 +2,24 @@ package android.example.movies.data.api.model
 
 import android.example.movies.data.api.MoviesApi
 import android.example.movies.domain.item.MovieItem
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class MovieModelApi(
-    @SerializedName("id") @Expose
+    @SerializedName("id")
     val movieId: Int,
-    @SerializedName("title") @Expose
+    @SerializedName("title")
     val title: String,
-    @SerializedName("original_title") @Expose
+    @SerializedName("original_title")
     val titleOriginal: String,
-    @SerializedName("overview") @Expose
+    @SerializedName("overview")
     val description: String,
-    @SerializedName("video") @Expose
+    @SerializedName("video")
     val ifVideo: Boolean,
-    @SerializedName("vote_average") @Expose
+    @SerializedName("vote_average")
     val rating: Double,
-    @SerializedName("release_date") @Expose
+    @SerializedName("release_date")
     val releaseDate: String,
-    @SerializedName("poster_path") @Expose
+    @SerializedName("poster_path")
     val posterPath: String
 ) {
 

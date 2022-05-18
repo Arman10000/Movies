@@ -1,13 +1,12 @@
 package android.example.movies.data.api.model
 
 import android.example.movies.domain.item.VideoMovieItem
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class VideoMovieModelApi(
-    @SerializedName("key") @Expose
+    @SerializedName("key")
     val key: String,
-    @SerializedName("name") @Expose
+    @SerializedName("name")
     val nameVideo: String
 ) {
 

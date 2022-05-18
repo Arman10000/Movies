@@ -1,13 +1,12 @@
 package android.example.movies.data.api.model
 
 import android.example.movies.domain.item.CommentMovieItem
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class CommentsMovieModelApi(
-    @SerializedName("author") @Expose
+    @SerializedName("author")
     val nameAuthor: String,
-    @SerializedName("content") @Expose
+    @SerializedName("content")
     val comment: String
 ) {
 

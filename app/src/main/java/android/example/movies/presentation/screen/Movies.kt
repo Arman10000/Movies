@@ -62,7 +62,6 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener {
 
         movieViewModel?.errorInternetNotification?.observe(viewLifecycleOwner) {
             Snackbar.make(binding.root, R.string.error_internet, Snackbar.LENGTH_SHORT).show()
-            movieViewModel?.stopLoadingMovies()
         }
 
         movieViewModel?.progressBar?.observe(viewLifecycleOwner) {
@@ -72,7 +71,6 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener {
 
         movieViewModel?.movies?.observe(viewLifecycleOwner) {
             movieAdapter.submitList(it)
-            movieViewModel?.stopLoadingMovies()
         }
 
         movieViewModel?.let {

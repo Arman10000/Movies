@@ -19,15 +19,16 @@ class MovieViewModel(
     private val movieUseCase: MovieUseCase
 ) : ViewModel() {
 
+    private val _commentsMovie: MutableLiveData<List<CommentMovieItem>> = MutableLiveData()
+    private val _videosMovie: MutableLiveData<List<VideoMovieItem>> = MutableLiveData()
+    private val _errorInternetNotification: MutableLiveData<Throwable> = MutableLiveData()
+    private val _progressBar: MutableLiveData<Boolean> = MutableLiveData()
+
     val movies: LiveData<List<MovieItem>> = movieUseCase.getAllMoviesDB()
     val favouriteMovies: LiveData<List<FavouriteMovieItem>> = movieUseCase.getAllFavouriteMoviesDB()
-    private val _commentsMovie: MutableLiveData<List<CommentMovieItem>> = MutableLiveData()
     val commentsMovie: LiveData<List<CommentMovieItem>> = _commentsMovie
-    private val _videosMovie: MutableLiveData<List<VideoMovieItem>> = MutableLiveData()
     val videosMovie: LiveData<List<VideoMovieItem>> = _videosMovie
-    private val _errorInternetNotification: MutableLiveData<Throwable> = MutableLiveData()
     val errorInternetNotification: LiveData<Throwable> = _errorInternetNotification
-    private val _progressBar: MutableLiveData<Boolean> = MutableLiveData()
     val progressBar: LiveData<Boolean> = _progressBar
 
     var typeSort: String = MoviesApi.SORT_BY_POPULARITY
@@ -59,6 +60,7 @@ class MovieViewModel(
                     } else {
                         _videosMovie.postValue(movieUseCase.getVideosMovieDB(movieId = movieId))
                         _errorInternetNotification.postValue(result.exceptionOrNull())
+                        stopLoadingMovies()
                     }
                 }
 
@@ -73,6 +75,7 @@ class MovieViewModel(
                     } else {
                         _commentsMovie.postValue(movieUseCase.getCommentsMovieDB(movieId = movieId))
                         _errorInternetNotification.postValue(result.exceptionOrNull())
+                        stopLoadingMovies()
                     }
                 }
 
@@ -122,12 +125,11 @@ class MovieViewModel(
             if (!isErrorInternet) page++
             _progressBar.value = true
             startLoadingMovies()
-
         }
 
     }
 
-    fun stopLoadingMovies() {
+    private fun stopLoadingMovies() {
         isErrorInternet = false
         isLoading = false
     }
@@ -144,6 +146,7 @@ class MovieViewModel(
 
             if (result.isFailure) {
                 _errorInternetNotification.postValue(result.exceptionOrNull())
+                stopLoadingMovies()
             }
 
             _progressBar.postValue(false)

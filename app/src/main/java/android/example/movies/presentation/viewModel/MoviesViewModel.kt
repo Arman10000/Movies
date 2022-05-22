@@ -182,8 +182,6 @@ class MoviesViewModel(
             }
 
             _setSelectedTypeSortMovies.value = StateSelectedTypeSortMovies(
-                selectedTextColor = R.color.teal_200,
-                notSelectedTextColor = R.color.white,
                 selectedSwitchSortState = typeSort == MoviesApi.SORT_BY_TOP_RATED
             )
             _progressBar.value = true

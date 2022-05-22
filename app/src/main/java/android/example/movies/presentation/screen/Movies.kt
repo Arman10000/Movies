@@ -78,8 +78,8 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener {
         movieViewModel?.setSelectedTypeSortMovies?.observe(viewLifecycleOwner) {
 
             context?.let { context ->
-                val selectedTextColor = ContextCompat.getColor(context, it.selectedTextColor)
-                val notSelectedTextColor = ContextCompat.getColor(context, it.notSelectedTextColor)
+                val selectedTextColor = ContextCompat.getColor(context, R.color.teal_200)
+                val notSelectedTextColor = ContextCompat.getColor(context, R.color.white)
 
                 binding.switchSort.isChecked = if (it.selectedSwitchSortState) {
                     binding.textPopularity.setTextColor(notSelectedTextColor)

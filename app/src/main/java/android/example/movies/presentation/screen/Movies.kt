@@ -9,6 +9,7 @@ import android.example.movies.presentation.adapter.layoutManager.MyGridLayoutMan
 import android.example.movies.presentation.di.app.App
 import android.example.movies.presentation.viewModel.MoviesViewModel
 import android.example.movies.presentation.viewModel.ViewModelFactory
+import android.example.movies.presentation.enum.TypeSortEnum
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -74,6 +75,25 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener {
             movieAdapter.submitList(it)
         }
 
+        movieViewModel?.setSelectedTypeSortMovies?.observe(viewLifecycleOwner) {
+
+            context?.let { context ->
+                val selectedTextColor = ContextCompat.getColor(context, it.selectedTextColor)
+                val notSelectedTextColor = ContextCompat.getColor(context, it.notSelectedTextColor)
+
+                binding.switchSort.isChecked = if (it.selectedSwitchSortState) {
+                    binding.textPopularity.setTextColor(notSelectedTextColor)
+                    binding.textTopRated.setTextColor(selectedTextColor)
+                    it.selectedSwitchSortState
+                } else {
+                    binding.textPopularity.setTextColor(selectedTextColor)
+                    binding.textTopRated.setTextColor(notSelectedTextColor)
+                    it.selectedSwitchSortState
+                }
+            }
+
+        }
+
         context?.let {
             binding.rvMovies.layoutManager = MyGridLayoutManager(context = it)
         }
@@ -102,55 +122,31 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener {
         binding.textTopRated.setOnClickListener(this)
     }
 
-    override fun onResume() {
-        super.onResume()
-        setSelectedTypeSortMovies()
-    }
-
     override fun onClick(view: View?) {
 
-        val typeSort = when (view?.id) {
+        val typeSortEnum = when (view?.id) {
 
             R.id.switchSort -> {
-                if (binding.switchSort.isChecked)
-                    MoviesApi.SORT_BY_TOP_RATED
-                else
-                    MoviesApi.SORT_BY_POPULARITY
+                TypeSortEnum.SwitchSort
             }
 
             R.id.textPopularity -> {
-                MoviesApi.SORT_BY_POPULARITY
+                TypeSortEnum.TextPopularity
             }
 
             R.id.textTopRated -> {
-                MoviesApi.SORT_BY_TOP_RATED
+                TypeSortEnum.TextTopRated
             }
 
             else -> {
-                MoviesApi.SORT_BY_POPULARITY
+                null
             }
         }
 
         movieViewModel?.loadingMoviesBySelectedTypeSort(
-            typeSort = typeSort
+            typeSortEnum = typeSortEnum
         )
 
-        setSelectedTypeSortMovies()
-
-    }
-
-    private fun setSelectedTypeSortMovies() {
-        context?.let {
-            if (movieViewModel?.typeSort == MoviesApi.SORT_BY_POPULARITY) {
-                binding.textPopularity.setTextColor(ContextCompat.getColor(it, R.color.teal_200))
-                binding.textTopRated.setTextColor(ContextCompat.getColor(it, R.color.white))
-                binding.switchSort.isChecked = false
-            } else {
-                binding.textTopRated.setTextColor(ContextCompat.getColor(it, R.color.teal_200))
-                binding.textPopularity.setTextColor(ContextCompat.getColor(it, R.color.white))
-                binding.switchSort.isChecked = true
-            }
-        }
     }
 
 }

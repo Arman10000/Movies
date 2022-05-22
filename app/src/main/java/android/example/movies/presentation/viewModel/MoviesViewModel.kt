@@ -1,12 +1,14 @@
 package android.example.movies.presentation.viewModel
 
-import android.content.res.Resources
+import android.example.movies.R
 import android.example.movies.data.api.MoviesApi
 import android.example.movies.domain.item.CommentMovieItem
 import android.example.movies.domain.item.FavouriteMovieItem
 import android.example.movies.domain.item.MovieItem
 import android.example.movies.domain.item.VideoMovieItem
 import android.example.movies.domain.useCase.MovieUseCase
+import android.example.movies.presentation.enum.TypeSortEnum
+import android.example.movies.presentation.state.StateSelectedTypeSortMovies
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +25,7 @@ class MoviesViewModel(
     private val _videosMovie: MutableLiveData<List<VideoMovieItem>> = MutableLiveData()
     private val _errorInternetNotification: MutableLiveData<Throwable> = MutableLiveData()
     private val _progressBar: MutableLiveData<Boolean> = MutableLiveData()
+    private val _setSelectedTypeSortMovies: MutableLiveData<StateSelectedTypeSortMovies> = MutableLiveData()
 
     val movies: LiveData<List<MovieItem>> = movieUseCase.getAllMoviesDB()
     val favouriteMovies: LiveData<List<FavouriteMovieItem>> = movieUseCase.getAllFavouriteMoviesDB()
@@ -30,8 +33,9 @@ class MoviesViewModel(
     val videosMovie: LiveData<List<VideoMovieItem>> = _videosMovie
     val errorInternetNotification: LiveData<Throwable> = _errorInternetNotification
     val progressBar: LiveData<Boolean> = _progressBar
+    val setSelectedTypeSortMovies: LiveData<StateSelectedTypeSortMovies> = _setSelectedTypeSortMovies
 
-    var typeSort: String = MoviesApi.SORT_BY_POPULARITY
+    private var typeSort: String = MoviesApi.SORT_BY_POPULARITY
     private var page = 1
     private val lang: String = Locale.getDefault().language
     private var isErrorInternet = false
@@ -154,12 +158,39 @@ class MoviesViewModel(
     }
 
     fun loadingMoviesBySelectedTypeSort(
-        typeSort: String
+        typeSortEnum: TypeSortEnum?
     ) {
-        this.typeSort = typeSort
-        page = 1
-        _progressBar.value = true
-        startLoadingMovies()
+        typeSortEnum?.let {
+
+           typeSort = when(it) {
+
+                TypeSortEnum.SwitchSort -> {
+                    if (typeSort == MoviesApi.SORT_BY_POPULARITY)
+                        MoviesApi.SORT_BY_TOP_RATED
+                    else
+                        MoviesApi.SORT_BY_POPULARITY
+                }
+
+                TypeSortEnum.TextPopularity -> {
+                    MoviesApi.SORT_BY_POPULARITY
+                }
+
+                TypeSortEnum.TextTopRated -> {
+                    MoviesApi.SORT_BY_TOP_RATED
+                }
+
+            }
+
+            _setSelectedTypeSortMovies.value = StateSelectedTypeSortMovies(
+                selectedTextColor = R.color.teal_200,
+                notSelectedTextColor = R.color.white,
+                selectedSwitchSortState = typeSort == MoviesApi.SORT_BY_TOP_RATED
+            )
+            _progressBar.value = true
+            page = 1
+            startLoadingMovies()
+
+        }
     }
 
     fun saveDetailsMovie(

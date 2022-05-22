@@ -9,7 +9,7 @@ import android.example.movies.domain.item.MovieItem
 import android.example.movies.presentation.adapter.CommentsMovieAdapter
 import android.example.movies.presentation.adapter.VideoMovieAdapter
 import android.example.movies.presentation.di.app.App
-import android.example.movies.presentation.viewModel.MovieViewModel
+import android.example.movies.presentation.viewModel.MoviesViewModel
 import android.example.movies.presentation.viewModel.ViewModelFactory
 import android.net.Uri
 import android.os.Bundle
@@ -33,7 +33,7 @@ class DetailMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
             ViewModelProvider(
                 it,
                 viewModelFactory
-            )[MovieViewModel::class.java]
+            )[MoviesViewModel::class.java]
         }
     }
     private var _binding: DetailMovieBinding? = null

@@ -5,8 +5,9 @@ import android.example.movies.R
 import android.example.movies.databinding.FavouriteMoviesBinding
 import android.example.movies.domain.item.MovieItem
 import android.example.movies.presentation.adapter.MovieAdapter
+import android.example.movies.presentation.adapter.layoutManager.MyGridLayoutManager
 import android.example.movies.presentation.di.app.App
-import android.example.movies.presentation.viewModel.MovieViewModel
+import android.example.movies.presentation.viewModel.MoviesViewModel
 import android.example.movies.presentation.viewModel.ViewModelFactory
 import android.os.Bundle
 import android.view.Menu
@@ -27,7 +28,7 @@ class FavouriteMovies : Fragment(R.layout.favourite_movies) {
             ViewModelProvider(
                 it,
                 viewModelFactory
-            )[MovieViewModel::class.java]
+            )[MoviesViewModel::class.java]
         }
     }
     private var _binding: FavouriteMoviesBinding? = null
@@ -72,8 +73,8 @@ class FavouriteMovies : Fragment(R.layout.favourite_movies) {
             movieAdapter.submitList(movies)
         }
 
-        movieViewModel?.let {
-            binding.rvFavouriteMovies.layoutManager = GridLayoutManager(context, it.getColumnCount())
+        context?.let {
+            binding.rvFavouriteMovies.layoutManager = MyGridLayoutManager(context = it)
         }
 
         binding.rvFavouriteMovies.adapter = movieAdapter

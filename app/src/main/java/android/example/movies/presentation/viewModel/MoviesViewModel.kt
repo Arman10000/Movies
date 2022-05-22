@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class MovieViewModel(
+class MoviesViewModel(
     private val movieUseCase: MovieUseCase
 ) : ViewModel() {
 
@@ -160,13 +160,6 @@ class MovieViewModel(
         page = 1
         _progressBar.value = true
         startLoadingMovies()
-    }
-
-    fun getColumnCount(): Int {
-        val displayMetrics = Resources.getSystem().displayMetrics
-        val width = (displayMetrics.widthPixels / displayMetrics.density).toInt()
-        val posterSize = MoviesApi.SMALL_POSTER_SIZE.toInt()
-        return if (width / posterSize > 2) width / posterSize else 2
     }
 
     fun saveDetailsMovie(

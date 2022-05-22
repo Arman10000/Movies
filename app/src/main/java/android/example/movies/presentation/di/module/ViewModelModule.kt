@@ -3,7 +3,7 @@ package android.example.movies.presentation.di.module
 import android.example.movies.domain.useCase.MovieUseCase
 import android.example.movies.presentation.di.annotation.ApplicationScope
 import android.example.movies.presentation.di.annotation.ViewModelKey
-import android.example.movies.presentation.viewModel.MovieViewModel
+import android.example.movies.presentation.viewModel.MoviesViewModel
 import android.example.movies.presentation.viewModel.ViewModelFactory
 import androidx.lifecycle.ViewModel
 import dagger.Module
@@ -15,11 +15,11 @@ import javax.inject.Provider
 class ViewModelModule {
 
     @IntoMap
-    @ViewModelKey(MovieViewModel::class)
+    @ViewModelKey(MoviesViewModel::class)
     @Provides
     fun provideMovieViewModel(
         movieUseCase: MovieUseCase
-    ): ViewModel = MovieViewModel(
+    ): ViewModel = MoviesViewModel(
         movieUseCase = movieUseCase
     )
 

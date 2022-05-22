@@ -5,8 +5,9 @@ import android.example.movies.R
 import android.example.movies.data.api.MoviesApi
 import android.example.movies.databinding.MoviesBinding
 import android.example.movies.presentation.adapter.MovieAdapter
+import android.example.movies.presentation.adapter.layoutManager.MyGridLayoutManager
 import android.example.movies.presentation.di.app.App
-import android.example.movies.presentation.viewModel.MovieViewModel
+import android.example.movies.presentation.viewModel.MoviesViewModel
 import android.example.movies.presentation.viewModel.ViewModelFactory
 import android.os.Bundle
 import android.view.View
@@ -28,7 +29,7 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener {
             ViewModelProvider(
                 it,
                 viewModelFactory
-            )[MovieViewModel::class.java]
+            )[MoviesViewModel::class.java]
         }
     }
     private var _binding: MoviesBinding? = null
@@ -73,8 +74,8 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener {
             movieAdapter.submitList(it)
         }
 
-        movieViewModel?.let {
-            binding.rvMovies.layoutManager = GridLayoutManager(context, it.getColumnCount())
+        context?.let {
+            binding.rvMovies.layoutManager = MyGridLayoutManager(context = it)
         }
 
         binding.rvMovies.adapter = movieAdapter

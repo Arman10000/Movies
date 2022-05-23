@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
 class MovieAdapter(
-    private val openDetailMovie: (movieItem: MovieItem) -> Unit
+    private val openDetailsMovie: (movieItem: MovieItem) -> Unit
 ) : ListAdapter<MovieItem, MovieAdapter.MovieViewHolder>(MovieItemDiffCallback()) {
 
     class MovieViewHolder(
@@ -19,11 +19,11 @@ class MovieAdapter(
 
         fun bind(
             movieItem: MovieItem,
-            openDetailMovie: (movieItem: MovieItem) -> Unit
+            openDetailsMovie: (movieItem: MovieItem) -> Unit
         ) {
             Picasso.get().load(movieItem.smallPoster).into(binding.ivSmallPoster)
             binding.ivSmallPoster.setOnClickListener {
-                openDetailMovie(movieItem)
+                openDetailsMovie(movieItem)
             }
         }
 
@@ -38,7 +38,7 @@ class MovieAdapter(
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.bind(
             movieItem = getItem(position),
-            openDetailMovie = openDetailMovie
+            openDetailsMovie = openDetailsMovie
         )
     }
 

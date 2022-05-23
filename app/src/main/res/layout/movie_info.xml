@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:background="@color/black">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         style="@style/tvInfoLabelStyle"
         android:id="@+id/tvLabelTitle"
         android:layout_width="wrap_content"
@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         style="@style/tvInfoStyle"
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="TextView" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         style="@style/tvInfoLabelStyle"
         android:id="@+id/tvLabelTitleOriginal"
         android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLabelTitle" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         style="@style/tvInfoStyle"
         android:id="@+id/tvTitleOriginal"
         android:layout_width="0dp"
@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
         tools:text="TextView" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         style="@style/tvInfoLabelStyle"
         android:id="@+id/tvLabelRating"
         android:layout_width="0dp"
@@ -54,7 +54,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvLabelTitleOriginal" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         style="@style/tvInfoStyle"
         android:id="@+id/tvRating"
         android:layout_width="0dp"
@@ -64,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvTitleOriginal"
         tools:text="TextView" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         style="@style/tvInfoLabelStyle"
         android:id="@+id/tvLabelReleaseDate"
         android:layout_width="0dp"
@@ -74,7 +74,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvLabelRating" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         style="@style/tvInfoStyle"
         android:id="@+id/tvReleaseDate"
         android:layout_width="0dp"
@@ -84,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvRating"
         tools:text="TextView" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         style="@style/tvInfoLabelStyle"
         android:id="@+id/tvLabelDescription"
         android:layout_width="0dp"
@@ -94,7 +94,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvLabelReleaseDate" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/tvDescription"
         style="@style/tvInfoStyle"
         android:layout_width="0dp"

@@ -12,7 +12,6 @@ import androidx.navigation.ui.onNavDestinationSelected
 
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
-
     private lateinit var navHost: NavHostFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {

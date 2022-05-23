@@ -7,30 +7,23 @@ import android.example.movies.domain.item.MovieItem
 import android.example.movies.presentation.adapter.MovieAdapter
 import android.example.movies.presentation.adapter.layoutManager.MyGridLayoutManager
 import android.example.movies.presentation.di.app.App
-import android.example.movies.presentation.viewModel.MoviesViewModel
+import android.example.movies.presentation.viewModel.FavouriteMoviesViewModel
 import android.example.movies.presentation.viewModel.ViewModelFactory
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import javax.inject.Inject
 
 class FavouriteMovies : Fragment(R.layout.favourite_movies) {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private val movieViewModel by lazy {
-        activity?.let {
-            ViewModelProvider(
-                it,
-                viewModelFactory
-            )[MoviesViewModel::class.java]
-        }
-    }
+    private val viewModel: FavouriteMoviesViewModel by viewModels { viewModelFactory }
     private var _binding: FavouriteMoviesBinding? = null
     private val binding get() = _binding!!
 
@@ -40,7 +33,7 @@ class FavouriteMovies : Fragment(R.layout.favourite_movies) {
     }
 
     override fun onAttach(context: Context) {
-        (activity?.application as App).appComponent.inject(this)
+        (requireActivity().application as App).appComponent.inject(this)
         super.onAttach(context)
     }
 
@@ -51,21 +44,18 @@ class FavouriteMovies : Fragment(R.layout.favourite_movies) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setHasOptionsMenu(true)
-
         _binding = FavouriteMoviesBinding.bind(view)
 
         val movieAdapter = MovieAdapter(
-            openDetailMovie = {
-                movieViewModel?.saveDetailsMovie(movieItem = it)
+            openDetailsMovie = {
                 findNavController().navigate(
-                    FavouriteMoviesDirections.actionFavouriteMoviesToDetailMovie()
+                    FavouriteMoviesDirections.actionFavouriteMoviesToDetailMovie(movieItem = it)
                 )
             }
         )
 
-        movieViewModel?.favouriteMovies?.observe(viewLifecycleOwner) { favouriteMovieList ->
+        viewModel.favouriteMovies.observe(viewLifecycleOwner) { favouriteMovieList ->
             val movies = arrayListOf<MovieItem>()
             favouriteMovieList.forEach {
                 movies.add(it.toMovieItem())
@@ -73,12 +63,8 @@ class FavouriteMovies : Fragment(R.layout.favourite_movies) {
             movieAdapter.submitList(movies)
         }
 
-        context?.let {
-            binding.rvFavouriteMovies.layoutManager = MyGridLayoutManager(context = it)
-        }
-
+        binding.rvFavouriteMovies.layoutManager = MyGridLayoutManager(requireContext())
         binding.rvFavouriteMovies.adapter = movieAdapter
-
     }
 
 }

@@ -9,33 +9,28 @@ import android.example.movies.domain.item.MovieItem
 import android.example.movies.presentation.adapter.CommentsMovieAdapter
 import android.example.movies.presentation.adapter.VideoMovieAdapter
 import android.example.movies.presentation.di.app.App
-import android.example.movies.presentation.viewModel.MoviesViewModel
+import android.example.movies.presentation.viewModel.DetailsMovieViewModel
 import android.example.movies.presentation.viewModel.ViewModelFactory
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import java.util.*
 import javax.inject.Inject
 
-class DetailMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
+class DetailsMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private val movieViewModel by lazy {
-        activity?.let {
-            ViewModelProvider(
-                it,
-                viewModelFactory
-            )[MoviesViewModel::class.java]
-        }
-    }
+    private val viewModel: DetailsMovieViewModel by viewModels { viewModelFactory }
     private var _binding: DetailMovieBinding? = null
     private var _movieItem: MovieItem? = null
     private var _favouriteMovieItem: FavouriteMovieItem? = null
@@ -44,6 +39,7 @@ class DetailMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
     private val movieItem get() = _movieItem!!
     private val favouriteMovieItem get() = _favouriteMovieItem!!
     private val favouriteMovies: ArrayList<FavouriteMovieItem> get() = _favouriteMovies!!
+    private val args: DetailsMovieArgs by navArgs()
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -54,7 +50,7 @@ class DetailMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
     }
 
     override fun onAttach(context: Context) {
-        (activity?.application as App).appComponent.inject(this)
+        (requireActivity().application as App).appComponent.inject(this)
         super.onAttach(context)
     }
 
@@ -66,16 +62,15 @@ class DetailMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-
         _binding = DetailMovieBinding.bind(view)
-        _movieItem = movieViewModel?.getDetailsMovie()
+        _movieItem = args.movieItem
         _favouriteMovieItem = movieItem.toFavouriteMovieItem()
 
-        movieViewModel?.loadingDetailMovie(movieItem.movieId)
+        viewModel.loadingVideosCommentsMovie(movieItem.movieId)
 
         binding.ivAddToFavourite.setOnClickListener(this)
-        binding.movieInfo.rvVideos.layoutManager = LinearLayoutManager(context)
-        binding.movieInfo.rvComments.layoutManager = LinearLayoutManager(context)
+        binding.movieInfo.rvVideos.layoutManager = LinearLayoutManager(requireContext())
+        binding.movieInfo.rvComments.layoutManager = LinearLayoutManager(requireContext())
 
         val commentsMovieAdapter = CommentsMovieAdapter()
         val videoMovieAdapter = VideoMovieAdapter(
@@ -83,7 +78,8 @@ class DetailMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
                 try {
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))
                 } catch (t: Throwable) {
-                    Snackbar.make(binding.root, R.string.not_action_view, Snackbar.LENGTH_SHORT)
+                    Snackbar
+                        .make(binding.root, R.string.not_action_view, Snackbar.LENGTH_SHORT)
                         .show()
                 }
             }
@@ -94,25 +90,24 @@ class DetailMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
 
         initMovie()
 
-        movieViewModel?.errorInternetNotification?.observe(viewLifecycleOwner) {
+        viewModel.errorInternetNotification.observe(viewLifecycleOwner) {
             Snackbar.make(binding.root, R.string.error_internet, Snackbar.LENGTH_SHORT).show()
         }
 
-        movieViewModel?.progressBar?.observe(viewLifecycleOwner) {
-            if (it) binding.progressBar.show()
-            else binding.progressBar.hide()
+        viewModel.progressBar.observe(viewLifecycleOwner) {
+            binding.progressBar.isVisible = it
         }
 
-        movieViewModel?.favouriteMovies?.observe(viewLifecycleOwner) {
+        viewModel.favouriteMovies.observe(viewLifecycleOwner) {
             _favouriteMovies = it as ArrayList
             setIconFavouriteMovie()
         }
 
-        movieViewModel?.commentsMovie?.observe(viewLifecycleOwner) {
+        viewModel.commentsMovie.observe(viewLifecycleOwner) {
             commentsMovieAdapter.submitList(it)
         }
 
-        movieViewModel?.videosMovie?.observe(viewLifecycleOwner) {
+        viewModel.videosMovie.observe(viewLifecycleOwner) {
             videoMovieAdapter.submitList(it)
         }
 
@@ -121,9 +116,9 @@ class DetailMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
     override fun onClick(p0: View?) {
 
         if (favouriteMovies.contains(favouriteMovieItem)) {
-            movieViewModel?.deleteFavouriteMovieDB(movieId = movieItem.movieId)
+            viewModel.deleteFavouriteMovieDB(movieId = movieItem.movieId)
         } else {
-            movieViewModel?.addFavouriteMovieDB(favouriteMovieItem = favouriteMovieItem)
+            viewModel.addFavouriteMovieDB(favouriteMovieItem = favouriteMovieItem)
         }
 
     }

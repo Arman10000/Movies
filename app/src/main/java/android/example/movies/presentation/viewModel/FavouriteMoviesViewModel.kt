@@ -1,12 +1,24 @@
 package android.example.movies.presentation.viewModel
 
-import android.example.movies.domain.item.FavouriteMovieItem
-import android.example.movies.domain.useCase.MovieUseCase
+import android.example.domain.item.MovieItem
+import android.example.domain.useCase.MovieUseCase
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FavouriteMoviesViewModel(
-    movieUseCase: MovieUseCase
+    private val movieUseCase: MovieUseCase
 ) : ViewModel() {
-    val favouriteMovies: LiveData<List<FavouriteMovieItem>> = movieUseCase.getAllFavouriteMoviesDB()
+
+    private val _favouriteMovies: MutableLiveData<List<MovieItem>> = MutableLiveData()
+    val favouriteMovies: LiveData<List<MovieItem>> = _favouriteMovies
+
+    fun getAllFavouriteMoviesDB() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _favouriteMovies.postValue(movieUseCase.getAllFavouriteMoviesDB())
+        }
+    }
 }

@@ -1,8 +1,8 @@
 package android.example.movies.presentation.adapter
 
-import android.example.movies.data.api.MoviesApi
+import android.example.data.api.MoviesApi
+import android.example.domain.item.VideoMovieItem
 import android.example.movies.databinding.VideoItemBinding
-import android.example.movies.domain.item.VideoMovieItem
 import android.example.movies.presentation.adapter.callback.VideoMovieItemDiffCallback
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -32,7 +32,7 @@ class VideoMovieAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = VideoItemBinding.inflate(layoutInflater, parent, false)
-        return VideoViewHolder(binding = binding)
+        return VideoViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {

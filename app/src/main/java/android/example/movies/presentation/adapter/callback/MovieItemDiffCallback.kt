@@ -1,6 +1,6 @@
 package android.example.movies.presentation.adapter.callback
 
-import android.example.movies.domain.item.MovieItem
+import android.example.domain.item.MovieItem
 import androidx.recyclerview.widget.DiffUtil
 
 class MovieItemDiffCallback : DiffUtil.ItemCallback<MovieItem>() {

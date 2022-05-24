@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
 }
 
@@ -39,11 +38,12 @@ android {
 
 dependencies {
     def coroutines_version = "1.6.0"
-    def room_version = "2.4.2"
-    def retrofit_version = "2.9.0"
     def picasso_version = "2.71828"
     def dagger_version = "2.41"
     def mutable_live_event = "1.0.2"
+
+    implementation project(path: ':data')
+    implementation project(path: ':domain')
 
     //Picasso
     implementation "com.squareup.picasso:picasso:$picasso_version"
@@ -51,11 +51,6 @@ dependencies {
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-
-    //Room
-    api "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
 
     //coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"

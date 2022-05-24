@@ -2,7 +2,7 @@ package android.example.movies.presentation.adapter.layoutManager
 
 import android.content.Context
 import android.content.res.Resources
-import android.example.movies.data.api.MoviesApi
+import android.example.data.api.MoviesApi
 import androidx.recyclerview.widget.GridLayoutManager
 
 class MyGridLayoutManager(

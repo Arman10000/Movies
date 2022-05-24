@@ -2,13 +2,12 @@ package android.example.movies.presentation.screen
 
 import android.content.Context
 import android.content.Intent
+import android.example.domain.item.MovieItem
 import android.example.movies.R
 import android.example.movies.databinding.DetailMovieBinding
-import android.example.movies.domain.item.FavouriteMovieItem
-import android.example.movies.domain.item.MovieItem
+import android.example.movies.di.app.App
 import android.example.movies.presentation.adapter.CommentsMovieAdapter
 import android.example.movies.presentation.adapter.VideoMovieAdapter
-import android.example.movies.presentation.di.app.App
 import android.example.movies.presentation.viewModel.DetailsMovieViewModel
 import android.example.movies.presentation.viewModel.ViewModelFactory
 import android.net.Uri
@@ -33,19 +32,16 @@ class DetailsMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
     private val viewModel: DetailsMovieViewModel by viewModels { viewModelFactory }
     private var _binding: DetailMovieBinding? = null
     private var _movieItem: MovieItem? = null
-    private var _favouriteMovieItem: FavouriteMovieItem? = null
-    private var _favouriteMovies: ArrayList<FavouriteMovieItem>? = null
+    private var _favouriteMovies: ArrayList<MovieItem>? = null
     private val binding get() = _binding!!
     private val movieItem get() = _movieItem!!
-    private val favouriteMovieItem get() = _favouriteMovieItem!!
-    private val favouriteMovies: ArrayList<FavouriteMovieItem> get() = _favouriteMovies!!
+    private val favouriteMovies: ArrayList<MovieItem> get() = _favouriteMovies!!
     private val args: DetailsMovieArgs by navArgs()
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
         _movieItem = null
-        _favouriteMovieItem = null
         _favouriteMovies = null
     }
 
@@ -63,10 +59,8 @@ class DetailsMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         _binding = DetailMovieBinding.bind(view)
-        _movieItem = args.movieItem
-        _favouriteMovieItem = movieItem.toFavouriteMovieItem()
 
-        viewModel.loadingVideosCommentsMovie(movieItem.movieId)
+        viewModel.loadingVideosCommentsMovie(args.movieId, args.openBy)
 
         binding.ivAddToFavourite.setOnClickListener(this)
         binding.movieInfo.rvVideos.layoutManager = LinearLayoutManager(requireContext())
@@ -88,7 +82,15 @@ class DetailsMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
         binding.movieInfo.rvComments.adapter = commentsMovieAdapter
         binding.movieInfo.rvVideos.adapter = videoMovieAdapter
 
-        initMovie()
+        viewModel.movie.observe(viewLifecycleOwner) { movieItem ->
+            _movieItem = movieItem
+            initMovie()
+
+            viewModel.favouriteMovies.observe(viewLifecycleOwner) {
+                _favouriteMovies = it as ArrayList
+                setIconFavouriteMovie()
+            }
+        }
 
         viewModel.errorInternetNotification.observe(viewLifecycleOwner) {
             Snackbar.make(binding.root, R.string.error_internet, Snackbar.LENGTH_SHORT).show()
@@ -98,11 +100,6 @@ class DetailsMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
             binding.progressBar.isVisible = it
         }
 
-        viewModel.favouriteMovies.observe(viewLifecycleOwner) {
-            _favouriteMovies = it as ArrayList
-            setIconFavouriteMovie()
-        }
-
         viewModel.commentsMovie.observe(viewLifecycleOwner) {
             commentsMovieAdapter.submitList(it)
         }
@@ -110,31 +107,25 @@ class DetailsMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
         viewModel.videosMovie.observe(viewLifecycleOwner) {
             videoMovieAdapter.submitList(it)
         }
-
     }
 
     override fun onClick(p0: View?) {
-
-        if (favouriteMovies.contains(favouriteMovieItem)) {
-            viewModel.deleteFavouriteMovieDB(movieId = movieItem.movieId)
+        if (favouriteMovies.contains(movieItem)) {
+            viewModel.deleteFavouriteMovieDB(movieItem.movieId)
         } else {
-            viewModel.addFavouriteMovieDB(favouriteMovieItem = favouriteMovieItem)
+            viewModel.addFavouriteMovieDB(movieItem)
         }
-
     }
 
     private fun setIconFavouriteMovie() {
-
-        if (favouriteMovies.contains(favouriteMovieItem)) {
+        if (favouriteMovies.contains(movieItem)) {
             binding.ivAddToFavourite.setImageResource(R.drawable.ic_favourite_add)
         } else {
             binding.ivAddToFavourite.setImageResource(R.drawable.ic_favourite_delete)
         }
-
     }
 
     private fun initMovie() {
-
         Picasso.get().load(movieItem.bigPoster).placeholder(R.drawable.ic_image)
             .into(binding.ivBigPoster)
         binding.movieInfo.tvTitle.text = movieItem.title
@@ -142,6 +133,5 @@ class DetailsMovie : Fragment(R.layout.detail_movie), View.OnClickListener {
         binding.movieInfo.tvDescription.text = movieItem.description
         binding.movieInfo.tvRating.text = movieItem.rating.toString()
         binding.movieInfo.tvReleaseDate.text = movieItem.releaseDate
-
     }
 }

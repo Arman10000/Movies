@@ -19,10 +19,13 @@
         android:id="@+id/detailsMovie"
         android:name="android.example.movies.presentation.screen.DetailsMovie"
         android:label="@string/detail_movie_title"
-        tools:layout="@layout/detail_movie" >
+        tools:layout="@layout/detail_movie">
         <argument
-            android:name="movieItem"
-            app:argType="android.example.movies.domain.item.MovieItem"/>
+            android:name="movieId"
+            app:argType="integer" />
+        <argument
+            android:name="openBy"
+            app:argType="string" />
     </fragment>
 
     <fragment

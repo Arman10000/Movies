@@ -10,6 +10,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
 
+const val OPEN_BY_MOVIES = "MOVIES"
+const val OPEN_BY_FAVOURITE_MOVIES = "FAVOURITE_MOVIES"
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var navHost: NavHostFragment

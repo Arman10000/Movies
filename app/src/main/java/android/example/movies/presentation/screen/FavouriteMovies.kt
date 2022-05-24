@@ -3,17 +3,15 @@ package android.example.movies.presentation.screen
 import android.content.Context
 import android.example.movies.R
 import android.example.movies.databinding.FavouriteMoviesBinding
-import android.example.movies.domain.item.MovieItem
+import android.example.movies.di.app.App
 import android.example.movies.presentation.adapter.MovieAdapter
 import android.example.movies.presentation.adapter.layoutManager.MyGridLayoutManager
-import android.example.movies.presentation.di.app.App
 import android.example.movies.presentation.viewModel.FavouriteMoviesViewModel
 import android.example.movies.presentation.viewModel.ViewModelFactory
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -50,21 +48,19 @@ class FavouriteMovies : Fragment(R.layout.favourite_movies) {
         val movieAdapter = MovieAdapter(
             openDetailsMovie = {
                 findNavController().navigate(
-                    FavouriteMoviesDirections.actionFavouriteMoviesToDetailMovie(movieItem = it)
+                    FavouriteMoviesDirections.actionFavouriteMoviesToDetailMovie(it.movieId, OPEN_BY_FAVOURITE_MOVIES)
                 )
             }
         )
 
-        viewModel.favouriteMovies.observe(viewLifecycleOwner) { favouriteMovieList ->
-            val movies = arrayListOf<MovieItem>()
-            favouriteMovieList.forEach {
-                movies.add(it.toMovieItem())
-            }
-            movieAdapter.submitList(movies)
-        }
-
         binding.rvFavouriteMovies.layoutManager = MyGridLayoutManager(requireContext())
         binding.rvFavouriteMovies.adapter = movieAdapter
+
+        viewModel.getAllFavouriteMoviesDB()
+
+        viewModel.favouriteMovies.observe(viewLifecycleOwner) {
+            movieAdapter.submitList(it)
+        }
     }
 
 }

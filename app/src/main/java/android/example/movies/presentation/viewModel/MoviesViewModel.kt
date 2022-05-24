@@ -1,11 +1,8 @@
 package android.example.movies.presentation.viewModel
 
-import android.example.movies.data.api.MoviesApi
-import android.example.movies.domain.item.CommentMovieItem
-import android.example.movies.domain.item.FavouriteMovieItem
-import android.example.movies.domain.item.MovieItem
-import android.example.movies.domain.item.VideoMovieItem
-import android.example.movies.domain.useCase.MovieUseCase
+import android.example.data.api.MoviesApi
+import android.example.domain.item.MovieItem
+import android.example.domain.useCase.MovieUseCase
 import android.example.movies.presentation.enum.TypeSortEnum
 import android.example.movies.presentation.eventArgs.ThrowableEventArgs
 import android.example.movies.presentation.state.StateSelectedTypeSortMovies
@@ -25,12 +22,12 @@ class MoviesViewModel(
     private val _progressBar: MutableLiveData<Boolean> = MutableLiveData()
     private val _setSelectedTypeSortMovies: MutableLiveData<StateSelectedTypeSortMovies> = MutableLiveData()
     private val _errorInternetNotification: MutableLiveEvent<ThrowableEventArgs> = MutableLiveEvent()
+    private val _movies: MutableLiveData<List<MovieItem>> = MutableLiveData()
 
     val progressBar: LiveData<Boolean> = _progressBar
     val setSelectedTypeSortMovies: LiveData<StateSelectedTypeSortMovies> = _setSelectedTypeSortMovies
     val errorInternetNotification: LiveData<ThrowableEventArgs> = _errorInternetNotification
-
-    val movies: LiveData<List<MovieItem>> = movieUseCase.getAllMoviesDB()
+    val movies: LiveData<List<MovieItem>> = _movies
 
     private var typeSort: String = MoviesApi.SORT_BY_POPULARITY
     private var page = 1
@@ -53,14 +50,12 @@ class MoviesViewModel(
     ) {
         if (
             showItemCount > 0 &&
-            (visibleItemCount + showItemCount) >= totalItemCount
-            && !isLoading
+            (visibleItemCount + showItemCount) >= totalItemCount &&
+            !isLoading
         ) {
             if (!isErrorInternet) page++
-            _progressBar.value = true
             startLoadingMovies()
         }
-
     }
 
     private fun stopLoadingMovies() {
@@ -69,21 +64,21 @@ class MoviesViewModel(
     }
 
     private fun startLoadingMovies() {
-        isLoading = true
         viewModelScope.launch(Dispatchers.IO) {
+            _progressBar.postValue(true)
+            isLoading = true
 
-            val result = movieUseCase.startLoadingMovies(
-                sortBy = typeSort,
-                page = page,
-                lang = lang
-            )
+            val result = movieUseCase.startLoadingMovies(typeSort, page, lang)
 
             if (result.isFailure) {
                 setErrorInternetNotification(error = result.exceptionOrNull())
                 stopLoadingMovies()
             }
 
+            _movies.postValue(movieUseCase.getAllMoviesDB())
+
             _progressBar.postValue(false)
+            isLoading = false
         }
     }
 
@@ -91,27 +86,25 @@ class MoviesViewModel(
         typeSortEnum: TypeSortEnum
     ) {
         typeSort = when (typeSortEnum) {
-            TypeSortEnum.SwitchSort -> {
+            TypeSortEnum.SWITCH_SORT -> {
                 if (typeSort == MoviesApi.SORT_BY_POPULARITY)
                     MoviesApi.SORT_BY_TOP_RATED
                 else
                     MoviesApi.SORT_BY_POPULARITY
             }
 
-            TypeSortEnum.TextPopularity -> {
+            TypeSortEnum.TEXT_POPULARITY -> {
                 MoviesApi.SORT_BY_POPULARITY
             }
 
-            TypeSortEnum.TextTopRated -> {
+            TypeSortEnum.TEXT_TOP_RATED -> {
                 MoviesApi.SORT_BY_TOP_RATED
             }
-
         }
 
         _setSelectedTypeSortMovies.value = StateSelectedTypeSortMovies(
-            selectedSwitchSortState = typeSort == MoviesApi.SORT_BY_TOP_RATED
+            typeSort == MoviesApi.SORT_BY_TOP_RATED
         )
-        _progressBar.value = true
         page = 1
         startLoadingMovies()
     }
@@ -125,5 +118,4 @@ class MoviesViewModel(
             )
         }
     }
-
 }

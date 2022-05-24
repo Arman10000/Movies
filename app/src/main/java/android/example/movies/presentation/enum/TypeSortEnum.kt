@@ -1,7 +1,7 @@
 package android.example.movies.presentation.enum
 
 enum class TypeSortEnum {
-    SwitchSort,
-    TextPopularity,
-    TextTopRated
+    SWITCH_SORT,
+    TEXT_POPULARITY,
+    TEXT_TOP_RATED
 }

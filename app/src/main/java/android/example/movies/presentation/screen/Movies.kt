@@ -3,16 +3,15 @@ package android.example.movies.presentation.screen
 import android.content.Context
 import android.example.movies.R
 import android.example.movies.databinding.MoviesBinding
+import android.example.movies.di.app.App
 import android.example.movies.presentation.adapter.MovieAdapter
 import android.example.movies.presentation.adapter.layoutManager.MyGridLayoutManager
-import android.example.movies.presentation.di.app.App
 import android.example.movies.presentation.enum.TypeSortEnum
 import android.example.movies.presentation.viewModel.MoviesViewModel
 import android.example.movies.presentation.viewModel.ViewModelFactory
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -49,7 +48,7 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener {
         val movieAdapter = MovieAdapter(
             openDetailsMovie = {
                 findNavController().navigate(
-                    MoviesDirections.actionMoviesToDetailsMovie(movieItem = it)
+                    MoviesDirections.actionMoviesToDetailsMovie(it.movieId, OPEN_BY_MOVIES)
                 )
             }
         )
@@ -111,15 +110,15 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener {
     override fun onClick(view: View?) {
         val typeSortEnum = when (view?.id) {
             R.id.switchSort -> {
-                TypeSortEnum.SwitchSort
+                TypeSortEnum.SWITCH_SORT
             }
 
             R.id.textPopularity -> {
-                TypeSortEnum.TextPopularity
+                TypeSortEnum.TEXT_POPULARITY
             }
 
             R.id.textTopRated -> {
-                TypeSortEnum.TextTopRated
+                TypeSortEnum.TEXT_TOP_RATED
             }
 
             else -> {

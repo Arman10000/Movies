@@ -14,11 +14,11 @@ interface MovieUseCase {
 
     suspend fun getFavouriteMovieDB(movieId: Int): MovieItem
 
-    suspend fun getCommentsMovieApi(movieId: Int, lang: String): Result<List<CommentMovieItem>?>
+    suspend fun getCommentsMovieApi(movieId: Int, lang: String)
 
     suspend fun getCommentsMovieDB(movieId: Int): List<CommentMovieItem>
 
-    suspend fun getVideosMovieApi(movieId: Int, lang: String): Result<List<VideoMovieItem>?>
+    suspend fun getVideosMovieApi(movieId: Int, lang: String)
 
     suspend fun getVideosMovieDB(movieId: Int): List<VideoMovieItem>
 
@@ -26,5 +26,5 @@ interface MovieUseCase {
 
     suspend fun deleteFavouriteMovieDB(movieId: Int)
 
-    suspend fun startLoadingMovies(sortBy: String, page: Int, lang: String): Result<Boolean>
+    suspend fun startLoadingMovies(sortBy: String, page: Int, lang: String)
 }

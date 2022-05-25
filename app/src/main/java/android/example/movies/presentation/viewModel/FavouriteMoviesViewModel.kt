@@ -9,9 +9,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FavouriteMoviesViewModel(
-    private val movieUseCase: MovieUseCase
-) : ViewModel() {
+class FavouriteMoviesViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
 
     private val _favouriteMovies: MutableLiveData<List<MovieItem>> = MutableLiveData()
     val favouriteMovies: LiveData<List<MovieItem>> = _favouriteMovies

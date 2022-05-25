@@ -10,14 +10,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.ar2code.mutableliveevent.MutableLiveEvent
 import java.util.*
 
-class MoviesViewModel(
-    private val movieUseCase: MovieUseCase
-) : ViewModel() {
+class MoviesViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
 
     private val _progressBar: MutableLiveData<Boolean> = MutableLiveData()
     private val _setSelectedTypeSortMovies: MutableLiveData<StateSelectedTypeSortMovies> = MutableLiveData()
@@ -36,6 +35,14 @@ class MoviesViewModel(
     private var isLoading = false
     private var firstStartMovies = true
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        viewModelScope.launch(Dispatchers.IO) {
+            _movies.postValue(movieUseCase.getAllMoviesDB())
+        }
+        setErrorInternetNotification(throwable)
+        stopLoadingMovies()
+    }
+
     fun ifFirstStartMovies() {
         if (firstStartMovies) {
             firstStartMovies = false
@@ -43,11 +50,7 @@ class MoviesViewModel(
         }
     }
 
-    fun loadingMoviesIfEndList(
-        totalItemCount: Int,
-        visibleItemCount: Int,
-        showItemCount: Int
-    ) {
+    fun loadingMoviesIfEndList(totalItemCount: Int, visibleItemCount: Int, showItemCount: Int) {
         if (
             showItemCount > 0 &&
             (visibleItemCount + showItemCount) >= totalItemCount &&
@@ -64,16 +67,11 @@ class MoviesViewModel(
     }
 
     private fun startLoadingMovies() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _progressBar.postValue(true)
             isLoading = true
 
-            val result = movieUseCase.startLoadingMovies(typeSort, page, lang)
-
-            if (result.isFailure) {
-                setErrorInternetNotification(error = result.exceptionOrNull())
-                stopLoadingMovies()
-            }
+            movieUseCase.startLoadingMovies(typeSort, page, lang)
 
             _movies.postValue(movieUseCase.getAllMoviesDB())
 
@@ -82,9 +80,7 @@ class MoviesViewModel(
         }
     }
 
-    fun loadingMoviesBySelectedTypeSort(
-        typeSortEnum: TypeSortEnum
-    ) {
+    fun loadingMoviesBySelectedTypeSort(typeSortEnum: TypeSortEnum) {
         typeSort = when (typeSortEnum) {
             TypeSortEnum.SWITCH_SORT -> {
                 if (typeSort == MoviesApi.SORT_BY_POPULARITY)
@@ -109,13 +105,8 @@ class MoviesViewModel(
         startLoadingMovies()
     }
 
-    private fun setErrorInternetNotification(
-        error: Throwable?
-    ) {
-        error?.let {
-            _errorInternetNotification.postValue(
-                ThrowableEventArgs(error = it)
-            )
-        }
+    private fun setErrorInternetNotification(error: Throwable) {
+        _errorInternetNotification.postValue(ThrowableEventArgs(error))
+        _progressBar.postValue(false)
     }
 }

@@ -24,21 +24,14 @@ class MovieUseCaseImpl(
     override suspend fun getCommentsMovieApi(
         movieId: Int,
         lang: String
-    ): Result<List<CommentMovieItem>?> {
-        try {
-            val commentsMovie = movieRepository.getCommentsMovieApi(movieId, lang)
+    ) {
+        val commentsMovie = movieRepository.getCommentsMovieApi(movieId, lang)
 
-            commentsMovie?.let {
-                if (commentsMovie.isNotEmpty()) {
-                    movieRepository.deleteCommentsMovieDB(movieId)
-                    movieRepository.addCommentsMovieDB(commentsMovie, movieId)
-                }
+        commentsMovie?.let {
+            if (commentsMovie.isNotEmpty()) {
+                movieRepository.deleteCommentsMovieDB(movieId)
+                movieRepository.addCommentsMovieDB(commentsMovie, movieId)
             }
-
-            return Result.success(commentsMovie)
-
-        } catch (t: Throwable) {
-            return Result.failure(t)
         }
     }
 
@@ -48,21 +41,14 @@ class MovieUseCaseImpl(
     override suspend fun getVideosMovieApi(
         movieId: Int,
         lang: String
-    ): Result<List<VideoMovieItem>?> {
-        try {
-            val videosMovie = movieRepository.getVideosMovieApi(movieId, lang)
+    ) {
+        val videosMovie = movieRepository.getVideosMovieApi(movieId, lang)
 
-            videosMovie?.let {
-                if (it.isNotEmpty()) {
-                    movieRepository.deleteVideosMovieDB(movieId)
-                    movieRepository.addVideosMovieDB(videosMovie, movieId)
-                }
+        videosMovie?.let {
+            if (it.isNotEmpty()) {
+                movieRepository.deleteVideosMovieDB(movieId)
+                movieRepository.addVideosMovieDB(videosMovie, movieId)
             }
-
-            return Result.success(videosMovie)
-
-        } catch (t: Throwable) {
-            return Result.failure(t)
         }
     }
 
@@ -81,21 +67,14 @@ class MovieUseCaseImpl(
         sortBy: String,
         page: Int,
         lang: String
-    ): Result<Boolean> {
-        try {
-            val movies = movieRepository.getMoviesApi(sortBy, page, lang)
+    ) {
+        val movies = movieRepository.getMoviesApi(sortBy, page, lang)
 
-            movies?.let {
-                if (it.isNotEmpty()) {
-                    if (page == 1) movieRepository.clearMoviesDB()
-                    movieRepository.addMoviesDB(it)
-                }
+        movies?.let {
+            if (it.isNotEmpty()) {
+                if (page == 1) movieRepository.clearMoviesDB()
+                movieRepository.addMoviesDB(it)
             }
-
-            return Result.success(true)
-
-        } catch (t: Throwable) {
-            return Result.failure(t)
         }
     }
 }

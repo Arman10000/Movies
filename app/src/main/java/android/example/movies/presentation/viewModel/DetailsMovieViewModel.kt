@@ -11,14 +11,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.ar2code.mutableliveevent.MutableLiveEvent
 import java.util.*
 
-class DetailsMovieViewModel(
-    private val movieUseCase: MovieUseCase
-) : ViewModel() {
+class DetailsMovieViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
 
     private val _commentsMovie: MutableLiveData<List<CommentMovieItem>> = MutableLiveData()
     private val _videosMovie: MutableLiveData<List<VideoMovieItem>> = MutableLiveData()
@@ -36,63 +35,43 @@ class DetailsMovieViewModel(
 
     private val lang: String = Locale.getDefault().language
     private var firstStartDetailsMovie = true
+    private lateinit var openBy: String
+    private var movieId: Int = -1
 
-    fun getMovie(movieId: Int) {
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         viewModelScope.launch(Dispatchers.IO) {
-            _movie.postValue(movieUseCase.getMovieDB(movieId))
+            postValueVideosMovie()
+            postValueCommentsMovie()
+            getMovieOpenBy()
         }
+        setErrorInternetNotification(throwable)
     }
 
-    fun loadingVideosCommentsMovie(
-        movieId: Int,
-        openBy: String
-    ) {
+    fun loadingVideosCommentsMovie(movieId: Int, openBy: String) {
         if (firstStartDetailsMovie) {
             firstStartDetailsMovie = false
-            viewModelScope.launch {
+            this.movieId = movieId
+            this.openBy = openBy
 
+            viewModelScope.launch {
                 _progressBar.value = true
 
-                val jobVideosMovie = viewModelScope.launch(Dispatchers.IO) {
-                    val result = movieUseCase.getVideosMovieApi(movieId, lang)
-
-                    if (result.isSuccess) {
-                        result.getOrNull()?.let {
-                            if (it.isNotEmpty()) _videosMovie.postValue(it)
-                        }
-                    } else {
-                        _videosMovie.postValue(movieUseCase.getVideosMovieDB(movieId))
-                        setErrorInternetNotification(error = result.exceptionOrNull())
-                    }
+                val jobVideosMovie = viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+                    movieUseCase.getVideosMovieApi(movieId, lang)
+                    postValueVideosMovie()
                 }
 
-                val jobCommentsMovie = viewModelScope.launch(Dispatchers.IO) {
-                    val result = movieUseCase.getCommentsMovieApi(movieId, lang)
-
-                    if (result.isSuccess) {
-                        result.getOrNull()?.let {
-                            if (it.isNotEmpty()) _commentsMovie.postValue(it)
-                        }
-                    } else {
-                        _commentsMovie.postValue(movieUseCase.getCommentsMovieDB(movieId))
-                        setErrorInternetNotification(error = result.exceptionOrNull())
-                    }
+                val jobCommentsMovie = viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+                    movieUseCase.getCommentsMovieApi(movieId, lang)
+                    postValueCommentsMovie()
                 }
 
-                val jobFavouriteMovies = viewModelScope.launch(Dispatchers.IO) {
+                val jobFavouriteMovies = viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
                     _favouriteMovies.postValue(movieUseCase.getAllFavouriteMoviesDB())
                 }
 
-                val jobMovie = viewModelScope.launch(Dispatchers.IO) {
-                    when(openBy) {
-                        OPEN_BY_MOVIES -> {
-                            _movie.postValue(movieUseCase.getMovieDB(movieId))
-                        }
-
-                        OPEN_BY_FAVOURITE_MOVIES -> {
-                            _movie.postValue(movieUseCase.getFavouriteMovieDB(movieId))
-                        }
-                    }
+                val jobMovie = viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+                    getMovieOpenBy()
                 }
 
                 jobVideosMovie.join()
@@ -105,32 +84,42 @@ class DetailsMovieViewModel(
         }
     }
 
-    fun addFavouriteMovieDB(
-        movieItem: MovieItem
-    ) {
+    fun addFavouriteMovieDB(movieItem: MovieItem) {
         viewModelScope.launch(Dispatchers.IO) {
             movieUseCase.addFavouriteMovieDB(movieItem)
             _favouriteMovies.postValue(movieUseCase.getAllFavouriteMoviesDB())
         }
     }
 
-    fun deleteFavouriteMovieDB(
-        movieId: Int
-    ) {
+    fun deleteFavouriteMovieDB(movieId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             movieUseCase.deleteFavouriteMovieDB(movieId)
             _favouriteMovies.postValue(movieUseCase.getAllFavouriteMoviesDB())
         }
     }
 
-    private fun setErrorInternetNotification(
-        error: Throwable?
-    ) {
-        error?.let {
-            _errorInternetNotification.postValue(
-                ThrowableEventArgs(error = it)
-            )
-        }
+    private fun setErrorInternetNotification(error: Throwable) {
+        _errorInternetNotification.postValue(ThrowableEventArgs(error))
+        _progressBar.postValue(false)
     }
 
+    private suspend fun postValueVideosMovie() {
+        _videosMovie.postValue(movieUseCase.getVideosMovieDB(movieId))
+    }
+
+    private suspend fun postValueCommentsMovie() {
+        _commentsMovie.postValue(movieUseCase.getCommentsMovieDB(movieId))
+    }
+
+    private suspend fun getMovieOpenBy() {
+        when (openBy) {
+            OPEN_BY_MOVIES -> {
+                _movie.postValue(movieUseCase.getMovieDB(movieId))
+            }
+
+            OPEN_BY_FAVOURITE_MOVIES -> {
+                _movie.postValue(movieUseCase.getFavouriteMovieDB(movieId))
+            }
+        }
+    }
 }

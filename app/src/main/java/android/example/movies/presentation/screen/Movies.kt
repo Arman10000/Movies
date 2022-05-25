@@ -102,6 +102,11 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener {
             }
         })
 
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.startLoadingMovies()
+            binding.refreshLayout.isRefreshing = false
+        }
+
         binding.switchSort.setOnClickListener(this)
         binding.textPopularity.setOnClickListener(this)
         binding.textTopRated.setOnClickListener(this)

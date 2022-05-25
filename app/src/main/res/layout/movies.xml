@@ -35,14 +35,21 @@
         app:layout_constraintStart_toEndOf="@+id/switchSort"
         app:layout_constraintTop_toTopOf="@+id/switchSort" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMovies"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchSort" />
+        app:layout_constraintTop_toBottomOf="@+id/switchSort">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMovies"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"

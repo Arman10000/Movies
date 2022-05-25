@@ -40,7 +40,6 @@ class MoviesViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
             _movies.postValue(movieUseCase.getAllMoviesDB())
         }
         setErrorInternetNotification(throwable)
-        stopLoadingMovies()
     }
 
     fun ifFirstStartMovies() {
@@ -61,12 +60,7 @@ class MoviesViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
         }
     }
 
-    private fun stopLoadingMovies() {
-        isErrorInternet = false
-        isLoading = false
-    }
-
-    private fun startLoadingMovies() {
+    fun startLoadingMovies() {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _progressBar.postValue(true)
             isLoading = true
@@ -77,6 +71,7 @@ class MoviesViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
 
             _progressBar.postValue(false)
             isLoading = false
+            isErrorInternet = false
         }
     }
 
@@ -108,5 +103,6 @@ class MoviesViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
     private fun setErrorInternetNotification(error: Throwable) {
         _errorInternetNotification.postValue(ThrowableEventArgs(error))
         _progressBar.postValue(false)
+        isErrorInternet = true
     }
 }

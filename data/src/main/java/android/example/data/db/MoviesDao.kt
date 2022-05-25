@@ -6,6 +6,7 @@ import android.example.data.db.model.MovieModelDB
 import android.example.data.db.model.VideoMovieModelDB
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
@@ -34,13 +35,13 @@ interface MoviesDao {
     suspend fun addMovies(movies: List<MovieModelDB>)
 
     @Insert
+    suspend fun addFavouriteMovie(favouriteMovieModel: FavouriteMovieModel)
+
+    @Insert
     suspend fun addCommentsMovie(comments: List<CommentsMovieModelDB>)
 
     @Insert
     suspend fun addVideosMovie(video: List<VideoMovieModelDB>)
-
-    @Insert
-    suspend fun addFavouriteMovie(favouriteMovieModel: FavouriteMovieModel)
 
     @Query("DELETE FROM comments_movie WHERE movieId == :movieId")
     suspend fun deleteCommentsMovie(movieId: Int)

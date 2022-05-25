@@ -60,7 +60,12 @@ class MoviesViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
         }
     }
 
-    fun startLoadingMovies() {
+    fun refreshLayout() {
+        page = 1
+        startLoadingMovies()
+    }
+
+    private fun startLoadingMovies() {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _progressBar.postValue(true)
             isLoading = true

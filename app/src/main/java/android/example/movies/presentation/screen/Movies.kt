@@ -103,7 +103,7 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener {
         })
 
         binding.refreshLayout.setOnRefreshListener {
-            viewModel.startLoadingMovies()
+            viewModel.refreshLayout()
             binding.refreshLayout.isRefreshing = false
         }
 

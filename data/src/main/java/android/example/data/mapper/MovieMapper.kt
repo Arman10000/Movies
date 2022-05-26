@@ -94,8 +94,14 @@ class MovieMapper {
 
     fun mapListMovieModelApiToListEntity(
         response: Response<MovieList>
-    ): List<MovieItem>? = response.body()?.moviesList?.map {
-        mapMovieModelApiToEntity(movieModelApi = it)
+    ): List<MovieItem> {
+        response.body()?.let {
+            return it.moviesList.map { movieModelApi ->
+                mapMovieModelApiToEntity(movieModelApi)
+            }
+        }
+
+        return listOf()
     }
 
     fun mapListFavouriteMovieModelToListEntity(

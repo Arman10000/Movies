@@ -49,8 +49,14 @@ class VideosMovieMapper {
 
     fun mapListVideoMovieModelApiToListEntity(
         response: Response<VideosMovieList>
-    ): List<VideoMovieItem>? = response.body()?.videosMovieList?.map {
-        mapVideoMovieModelApiToEntity(videoMovieModelApi = it)
+    ): List<VideoMovieItem> {
+        response.body()?.let {
+            return it.videosMovieList.map { videoMovieModelApi ->
+                mapVideoMovieModelApiToEntity(videoMovieModelApi)
+            }
+        }
+
+        return listOf()
     }
 
 }

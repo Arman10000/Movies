@@ -18,11 +18,11 @@ interface MovieRepository {
 
     suspend fun getVideosMovieDB(movieId: Int): List<VideoMovieItem>
 
-    fun getMoviesApi(sortBy: String, page: Int, lang: String): List<MovieItem>?
+    fun getMoviesApi(sortBy: String, page: Int, lang: String): List<MovieItem>
 
-    fun getVideosMovieApi(movieId: Int, lang: String): List<VideoMovieItem>?
+    fun getVideosMovieApi(movieId: Int, lang: String): List<VideoMovieItem>
 
-    fun getCommentsMovieApi(movieId: Int, lang: String): List<CommentMovieItem>?
+    fun getCommentsMovieApi(movieId: Int, lang: String): List<CommentMovieItem>
 
     suspend fun addMoviesDB(movies: List<MovieItem>)
 

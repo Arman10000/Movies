@@ -34,14 +34,14 @@ class MovieRepositoryImpl(
         sortBy: String,
         page: Int,
         lang: String
-    ): List<MovieItem>? = movieMapper.mapListMovieModelApiToListEntity(
+    ): List<MovieItem> = movieMapper.mapListMovieModelApiToListEntity(
         moviesApi.getMovies(sortBy, page, lang).execute()
     )
 
     override fun getCommentsMovieApi(
         movieId: Int,
         lang: String
-    ): List<CommentMovieItem>? = commentsMovieMapper.mapListCommentsMovieModelApiToListEntity(
+    ): List<CommentMovieItem> = commentsMovieMapper.mapListCommentsMovieModelApiToListEntity(
         response = moviesApi.getCommentsMovie(movieId, lang).execute()
     )
 
@@ -55,7 +55,7 @@ class MovieRepositoryImpl(
     override fun getVideosMovieApi(
         movieId: Int,
         lang: String
-    ): List<VideoMovieItem>? = videosMovieMapper.mapListVideoMovieModelApiToListEntity(
+    ): List<VideoMovieItem> = videosMovieMapper.mapListVideoMovieModelApiToListEntity(
         response = moviesApi.getVideosMovie(movieId, lang).execute()
     )
 

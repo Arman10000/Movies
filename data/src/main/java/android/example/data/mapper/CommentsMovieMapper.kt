@@ -51,9 +51,13 @@ class CommentsMovieMapper {
 
     fun mapListCommentsMovieModelApiToListEntity(
         response: Response<CommentsMovieList>
-    ) = response.body()?.commentsMovieList?.map {
-        mapCommentsMovieModelApiToEntity(
-            commentsMovieModelApi = it
-        )
+    ): List<CommentMovieItem> {
+        response.body()?.let {
+            return it.commentsMovieList.map { commentsMovieModelApi ->
+                mapCommentsMovieModelApiToEntity(commentsMovieModelApi)
+            }
+        }
+
+        return listOf()
     }
 }

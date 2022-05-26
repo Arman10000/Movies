@@ -27,11 +27,9 @@ class MovieUseCaseImpl(
     ) {
         val commentsMovie = movieRepository.getCommentsMovieApi(movieId, lang)
 
-        commentsMovie?.let {
-            if (commentsMovie.isNotEmpty()) {
-                movieRepository.deleteCommentsMovieDB(movieId)
-                movieRepository.addCommentsMovieDB(commentsMovie, movieId)
-            }
+        if (commentsMovie.isNotEmpty()) {
+            movieRepository.deleteCommentsMovieDB(movieId)
+            movieRepository.addCommentsMovieDB(commentsMovie, movieId)
         }
     }
 
@@ -44,11 +42,9 @@ class MovieUseCaseImpl(
     ) {
         val videosMovie = movieRepository.getVideosMovieApi(movieId, lang)
 
-        videosMovie?.let {
-            if (it.isNotEmpty()) {
-                movieRepository.deleteVideosMovieDB(movieId)
-                movieRepository.addVideosMovieDB(videosMovie, movieId)
-            }
+        if (videosMovie.isNotEmpty()) {
+            movieRepository.deleteVideosMovieDB(movieId)
+            movieRepository.addVideosMovieDB(videosMovie, movieId)
         }
     }
 
@@ -70,11 +66,9 @@ class MovieUseCaseImpl(
     ) {
         val movies = movieRepository.getMoviesApi(sortBy, page, lang)
 
-        movies?.let {
-            if (it.isNotEmpty()) {
-                if (page == 1) movieRepository.clearMoviesDB()
-                movieRepository.addMoviesDB(it)
-            }
+        if (movies.isNotEmpty()) {
+            if (page == 1) movieRepository.clearMoviesDB()
+            movieRepository.addMoviesDB(movies)
         }
     }
 }

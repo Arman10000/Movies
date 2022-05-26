@@ -65,21 +65,6 @@ class MoviesViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
         startLoadingMovies()
     }
 
-    private fun startLoadingMovies() {
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            _progressBar.postValue(true)
-            isLoading = true
-
-            movieUseCase.startLoadingMovies(typeSort, page, lang)
-
-            _movies.postValue(movieUseCase.getAllMoviesDB())
-
-            _progressBar.postValue(false)
-            isLoading = false
-            isErrorInternet = false
-        }
-    }
-
     fun loadingMoviesBySelectedTypeSort(typeSortEnum: TypeSortEnum) {
         typeSort = when (typeSortEnum) {
             TypeSortEnum.SWITCH_SORT -> {
@@ -103,6 +88,21 @@ class MoviesViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
         )
         page = 1
         startLoadingMovies()
+    }
+
+    private fun startLoadingMovies() {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+            _progressBar.postValue(true)
+            isLoading = true
+
+            movieUseCase.startLoadingMovies(typeSort, page, lang)
+
+            _movies.postValue(movieUseCase.getAllMoviesDB())
+
+            _progressBar.postValue(false)
+            isLoading = false
+            isErrorInternet = false
+        }
     }
 
     private fun setErrorInternetNotification(error: Throwable) {

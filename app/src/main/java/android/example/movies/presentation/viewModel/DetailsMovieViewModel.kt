@@ -53,24 +53,24 @@ class DetailsMovieViewModel(private val movieUseCase: MovieUseCase) : ViewModel(
             this.movieId = movieId
             this.openBy = openBy
 
-            viewModelScope.launch {
+            viewModelScope.launch(exceptionHandler) {
                 _progressBar.value = true
 
-                val jobVideosMovie = viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+                val jobVideosMovie = launch(Dispatchers.IO) {
                     movieUseCase.getVideosMovieApi(movieId, lang)
                     postValueVideosMovie()
                 }
 
-                val jobCommentsMovie = viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+                val jobCommentsMovie = launch(Dispatchers.IO) {
                     movieUseCase.getCommentsMovieApi(movieId, lang)
                     postValueCommentsMovie()
                 }
 
-                val jobFavouriteMovies = viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+                val jobFavouriteMovies = launch(Dispatchers.IO) {
                     _favouriteMovies.postValue(movieUseCase.getAllFavouriteMoviesDB())
                 }
 
-                val jobMovie = viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+                val jobMovie = launch(Dispatchers.IO) {
                     getMovieOpenBy()
                 }
 

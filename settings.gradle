@@ -8,5 +8,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Movies"
 include ':app'
-include ':data'
-include ':domain'
+include ':core'
+include ':feature-movies-screen'
+include ':feature-details-movie-screen'
+include ':feature-favourite-movies-screen'

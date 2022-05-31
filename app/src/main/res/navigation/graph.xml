@@ -7,34 +7,27 @@
 
     <fragment
         android:id="@+id/movies"
-        android:name="android.example.movies.presentation.screen.Movies"
+        android:name="android.example.feature_movies_screen.presentation.screen.Movies"
         android:label="@string/movies_title"
         tools:layout="@layout/movies">
         <action
-            android:id="@+id/action_movies_to_detailsMovie"
+            android:id="@id/action_movies_to_detailsMovie"
             app:destination="@id/detailsMovie" />
     </fragment>
 
     <fragment
-        android:id="@+id/detailsMovie"
-        android:name="android.example.movies.presentation.screen.DetailsMovie"
-        android:label="@string/detail_movie_title"
-        tools:layout="@layout/detail_movie">
-        <argument
-            android:name="movieId"
-            app:argType="integer" />
-        <argument
-            android:name="openBy"
-            app:argType="string" />
-    </fragment>
-
-    <fragment
         android:id="@+id/favouriteMovies"
-        android:name="android.example.movies.presentation.screen.FavouriteMovies"
+        android:name="android.example.feature_favourite_movies_screen.presentation.screen.FavouriteMovies"
         android:label="@string/favorite_movies_title"
         tools:layout="@layout/favourite_movies">
         <action
             android:id="@+id/action_favouriteMovies_to_detailMovie"
             app:destination="@id/detailsMovie" />
     </fragment>
+
+    <fragment
+        android:id="@+id/detailsMovie"
+        android:name="android.example.feature_details_movie_screen.presentation.screen.DetailsMovie"
+        android:label="@string/detail_movie_title"
+        tools:layout="@layout/details_movie" />
 </navigation>

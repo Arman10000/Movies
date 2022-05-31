@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_internet">Проверте подключение к интернету</string>
+    <string name="not_action_view">Нет приложения, которое могло бы открыть фильм</string>
+    <string name="tv_info_label_title">Название:</string>
+    <string name="tv_info_label_original">Оригинальное название:</string>
+    <string name="tv_info_label_rating">Рейтинг:</string>
+    <string name="tv_info_label_release_date">Дата релиза:</string>
+    <string name="tv_info_label_description">Описание:</string>
+</resources>

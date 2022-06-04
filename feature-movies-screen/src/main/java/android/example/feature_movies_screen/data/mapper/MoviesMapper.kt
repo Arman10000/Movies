@@ -1,11 +1,11 @@
 package android.example.feature_movies_screen.data.mapper
 
-import android.example.core.const.BASE_POSTER_URL
-import android.example.core.const.BIG_POSTER_SIZE
 import android.example.core.const.SMALL_POSTER_SIZE
 import android.example.core.db.model.MovieModelDB
 import android.example.core.item.MovieItem
 import android.example.core.mapper.BaseMapper
+import android.example.feature_movies_screen.data.api.MoviesApi.Companion.BASE_POSTER_URL
+import android.example.feature_movies_screen.data.api.MoviesApi.Companion.BIG_POSTER_SIZE
 import android.example.feature_movies_screen.data.api.model.MovieList
 import android.example.feature_movies_screen.data.api.model.MovieModelApi
 import retrofit2.Response

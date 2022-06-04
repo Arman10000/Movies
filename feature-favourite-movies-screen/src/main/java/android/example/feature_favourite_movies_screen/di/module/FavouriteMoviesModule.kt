@@ -1,7 +1,10 @@
 package android.example.feature_favourite_movies_screen.di.module
 
-import android.example.core.db.MoviesDao
+import android.app.Application
+import android.example.core.db.Database
 import android.example.core.di.annotation.ApplicationScope
+import android.example.feature_favourite_movies_screen.data.db.FavouriteMoviesDao
+import android.example.feature_favourite_movies_screen.data.db.FavouriteMoviesDatabase
 import android.example.feature_favourite_movies_screen.data.mapper.FavouriteMoviesMapper
 import android.example.feature_favourite_movies_screen.data.repository.FavouriteMoviesRepository
 import android.example.feature_favourite_movies_screen.data.repository.FavouriteMoviesRepositoryImpl
@@ -14,15 +17,22 @@ import dagger.Provides
 @Module
 class FavouriteMoviesModule {
 
+    @ApplicationScope
+    @Provides
+    fun provideFavouriteMoviesDatabase(application: Application) = Database.getInstance<FavouriteMoviesDatabase>(application)
+
+    @Provides
+    fun provideFavouriteMoviesDao(favouriteMoviesDatabase: FavouriteMoviesDatabase) = favouriteMoviesDatabase.getFavouriteMoviesDao()
+
     @Provides
     fun provideFavouriteMoviesMapper() = FavouriteMoviesMapper()
 
     @Provides
     fun provideFavouriteMoviesRepository(
-        moviesDao: MoviesDao,
+        favouriteMoviesDao: FavouriteMoviesDao,
         favouriteMoviesMapper: FavouriteMoviesMapper
     ): FavouriteMoviesRepository = FavouriteMoviesRepositoryImpl(
-        moviesDao,
+        favouriteMoviesDao,
         favouriteMoviesMapper
     )
 

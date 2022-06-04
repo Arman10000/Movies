@@ -15,6 +15,7 @@ interface DetailsMovieApi {
         private const val BASE_URL_COMMENTS = "movie/{movie_id}/reviews"
         private const val BASE_URL_VIDEOS = "movie/{movie_id}/videos"
         private const val PARAMS_MOVIE_ID = "movie_id"
+        const val BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v="
     }
 
     @GET("${BASE_URL_VIDEOS}?${PARAMS_API_KEY}=${API_KEY}")

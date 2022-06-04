@@ -3,12 +3,3 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
 }
-
-dependencies {
-    def room_version = "2.4.2"
-
-    //Room
-    api "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-}

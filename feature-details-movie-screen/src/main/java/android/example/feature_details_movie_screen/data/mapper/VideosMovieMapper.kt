@@ -1,7 +1,7 @@
 package android.example.feature_details_movie_screen.data.mapper
 
-import android.example.core.const.BASE_YOUTUBE_URL
 import android.example.core.db.model.VideoMovieModelDB
+import android.example.feature_details_movie_screen.data.api.DetailsMovieApi.Companion.BASE_YOUTUBE_URL
 import android.example.feature_details_movie_screen.data.api.model.VideoMovieModelApi
 import android.example.feature_details_movie_screen.data.api.model.VideosMovieList
 import android.example.feature_details_movie_screen.domain.item.VideoMovieItem

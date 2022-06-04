@@ -15,6 +15,10 @@ interface MoviesApi {
         private const val PARAMS_MIN_VOTE_COUNT = "vote_count.gte"
         private const val VALUE_MIN_VOTE_COUNT = "1000"
         private const val BASE_URL_MOVIES = "discover/movie"
+        const val BASE_POSTER_URL = "https://image.tmdb.org/t/p/w"
+        const val BIG_POSTER_SIZE = "780"
+        const val SORT_BY_POPULARITY = "popularity.desc"
+        const val SORT_BY_TOP_RATED = "vote_average.desc"
     }
 
     @GET("$BASE_URL_MOVIES?$PARAMS_API_KEY=$API_KEY&$PARAMS_MIN_VOTE_COUNT=$VALUE_MIN_VOTE_COUNT")

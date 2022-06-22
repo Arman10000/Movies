@@ -7,4 +7,6 @@ interface MoviesUseCase {
     suspend fun getAllMoviesDB(): List<MovieItem>
 
     suspend fun startLoadingMovies(sortBy: String, page: Int, lang: String)
+
+    suspend fun getQueryMoviesApi(query: String)
 }

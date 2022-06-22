@@ -1,8 +1,7 @@
-package android.example.feature_details_movie_screen.data.db
+package android.example.core.db
 
-import android.example.core.db.BaseDao
 import android.example.core.db.model.CommentsMovieModelDB
-import android.example.core.db.model.FavouriteMovieModel
+import android.example.core.db.model.FavouriteMovieModelDB
 import android.example.core.db.model.MovieModelDB
 import android.example.core.db.model.VideoMovieModelDB
 import androidx.room.Dao
@@ -10,13 +9,24 @@ import androidx.room.Insert
 import androidx.room.Query
 
 @Dao
-interface DetailsMovieDao: BaseDao {
+interface MoviesDao {
+    @Query("SELECT * FROM movies")
+    suspend fun getAllMovies(): List<MovieModelDB>
+
+    @Insert
+    suspend fun addMovies(movies: List<MovieModelDB>)
+
+    @Query("DELETE FROM movies")
+    suspend fun clearMovies()
+
+    @Query("SELECT * FROM favourite_movies")
+    suspend fun getAllFavouriteMovies(): List<FavouriteMovieModelDB>
 
     @Query("SELECT * FROM movies WHERE movieId == :movieId")
     suspend fun getMovie(movieId: Int): MovieModelDB
 
     @Query("SELECT * FROM favourite_movies WHERE movieId == :movieId")
-    suspend fun getFavouriteMovie(movieId: Int): FavouriteMovieModel
+    suspend fun getFavouriteMovie(movieId: Int): FavouriteMovieModelDB
 
     @Query("SELECT * FROM comments_movie WHERE movieId == :movieId")
     suspend fun getCommentsMovie(movieId: Int): List<CommentsMovieModelDB>
@@ -25,7 +35,7 @@ interface DetailsMovieDao: BaseDao {
     suspend fun getVideoMovie(movieId: Int): List<VideoMovieModelDB>
 
     @Insert
-    suspend fun addFavouriteMovie(favouriteMovieModel: FavouriteMovieModel)
+    suspend fun addFavouriteMovie(favouriteMovieModel: FavouriteMovieModelDB)
 
     @Insert
     suspend fun addCommentsMovie(comments: List<CommentsMovieModelDB>)

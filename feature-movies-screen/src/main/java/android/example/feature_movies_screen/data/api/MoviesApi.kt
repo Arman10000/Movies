@@ -15,6 +15,8 @@ interface MoviesApi {
         private const val PARAMS_MIN_VOTE_COUNT = "vote_count.gte"
         private const val VALUE_MIN_VOTE_COUNT = "1000"
         private const val BASE_URL_MOVIES = "discover/movie"
+        private const val BASE_URL_QUERY_MOVIES = "search/movie"
+        private const val PARAMS_QUERY = "query"
         const val BASE_POSTER_URL = "https://image.tmdb.org/t/p/w"
         const val BIG_POSTER_SIZE = "780"
         const val SORT_BY_POPULARITY = "popularity.desc"
@@ -26,5 +28,10 @@ interface MoviesApi {
         @Query(PARAMS_SORT_BY) sortBy: String,
         @Query(PARAMS_PAGE) page: Int,
         @Query(PARAMS_LANGUAGE) lang: String
+    ): Call<MovieList>
+
+    @GET("$BASE_URL_QUERY_MOVIES?$PARAMS_API_KEY=$API_KEY")
+    fun getQueryMovies(
+        @Query(PARAMS_QUERY) query: String
     ): Call<MovieList>
 }

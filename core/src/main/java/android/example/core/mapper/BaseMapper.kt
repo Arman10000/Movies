@@ -1,13 +1,13 @@
 package android.example.core.mapper
 
-import android.example.core.db.model.FavouriteMovieModel
+import android.example.core.db.model.FavouriteMovieModelDB
 import android.example.core.db.model.MovieModelDB
 import android.example.core.item.MovieItem
 
 abstract class BaseMapper {
 
     fun mapFavouriteMovieModelToEntity(
-        favouriteMovieModel: FavouriteMovieModel
+        favouriteMovieModel: FavouriteMovieModelDB
     ) = MovieItem(
         movieId = favouriteMovieModel.movieId,
         title = favouriteMovieModel.title,
@@ -35,7 +35,7 @@ abstract class BaseMapper {
     )
 
     fun mapListFavouriteMovieModelToListEntity(
-        list: List<FavouriteMovieModel>
+        list: List<FavouriteMovieModelDB>
     ) = list.map {
         mapFavouriteMovieModelToEntity(favouriteMovieModel = it)
     }

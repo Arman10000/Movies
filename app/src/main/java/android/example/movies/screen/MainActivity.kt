@@ -2,7 +2,6 @@ package android.example.movies.screen
 
 import android.example.movies.R
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -22,11 +21,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             navHost.navController,
             AppBarConfiguration(navHost.navController.graph)
         )
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onSupportNavigateUp(): Boolean {

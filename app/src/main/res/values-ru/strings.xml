@@ -4,5 +4,4 @@
     <string name="movies_title">Фильмы</string>
     <string name="favorite_movies_title">Избранное</string>
     <string name="detail_movie_title">Подробности</string>
-    <string name="item_favourite">Избранное</string>
 </resources>

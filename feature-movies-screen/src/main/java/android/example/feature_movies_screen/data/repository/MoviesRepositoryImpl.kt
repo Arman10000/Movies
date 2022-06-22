@@ -1,8 +1,8 @@
 package android.example.feature_movies_screen.data.repository
 
+import android.example.core.db.MoviesDao
 import android.example.core.item.MovieItem
 import android.example.feature_movies_screen.data.api.MoviesApi
-import android.example.feature_movies_screen.data.db.MoviesDao
 import android.example.feature_movies_screen.data.mapper.MoviesMapper
 
 class MoviesRepositoryImpl(
@@ -17,6 +17,12 @@ class MoviesRepositoryImpl(
         lang: String
     ): List<MovieItem> = moviesMapper.mapListMovieModelApiToListEntity(
         moviesApi.getMovies(sortBy, page, lang).execute()
+    )
+
+    override fun getQueryMoviesApi(
+        query: String
+    ): List<MovieItem> = moviesMapper.mapListMovieModelApiToListEntity(
+        moviesApi.getQueryMovies(query).execute()
     )
 
     override suspend fun getAllMoviesDB(): List<MovieItem> =

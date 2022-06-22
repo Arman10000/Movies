@@ -20,7 +20,8 @@ class MoviesViewModel(
     private val moviesUseCase: MoviesUseCase
 ) : BaseViewModel() {
 
-    private val _setSelectedTypeSortMovies: MutableLiveData<StateSelectedTypeSortMovies> = MutableLiveData()
+    private val _setSelectedTypeSortMovies: MutableLiveData<StateSelectedTypeSortMovies> =
+        MutableLiveData()
     private val _movies: MutableLiveData<List<MovieItem>> = MutableLiveData()
 
     val setSelectedTypeSortMovies: LiveData<StateSelectedTypeSortMovies> =
@@ -85,8 +86,7 @@ class MoviesViewModel(
         _setSelectedTypeSortMovies.value = StateSelectedTypeSortMovies(
             typeSort == SORT_BY_TOP_RATED
         )
-        page = 1
-        startLoadingMovies()
+        getMoviesPageOne()
     }
 
     private fun startLoadingMovies() {
@@ -108,6 +108,25 @@ class MoviesViewModel(
         errorInternetNotificationBase.postValue(ThrowableEventArgs(error))
         progressBarBase.postValue(false)
         isErrorInternet = true
+    }
+
+    fun getQueryMovies(query: String) {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+            progressBarBase.postValue(true)
+            isLoading = true
+
+            moviesUseCase.getQueryMoviesApi(query)
+
+            _movies.postValue(moviesUseCase.getAllMoviesDB())
+
+            progressBarBase.postValue(false)
+            isErrorInternet = false
+        }
+    }
+
+    fun getMoviesPageOne() {
+        page = 1
+        startLoadingMovies()
     }
 
     override fun onCleared() {

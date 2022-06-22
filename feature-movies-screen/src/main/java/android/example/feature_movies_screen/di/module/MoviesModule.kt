@@ -1,12 +1,9 @@
 package android.example.feature_movies_screen.di.module
 
-import android.app.Application
 import android.example.core.api.RetrofitBuilder
-import android.example.core.db.Database
+import android.example.core.db.MoviesDao
 import android.example.core.di.annotation.ApplicationScope
 import android.example.feature_movies_screen.data.api.MoviesApi
-import android.example.feature_movies_screen.data.db.MoviesDao
-import android.example.feature_movies_screen.data.db.MoviesDatabase
 import android.example.feature_movies_screen.data.mapper.MoviesMapper
 import android.example.feature_movies_screen.data.repository.MoviesRepository
 import android.example.feature_movies_screen.data.repository.MoviesRepositoryImpl
@@ -20,15 +17,9 @@ import dagger.Provides
 class MoviesModule {
 
     @Provides
-    fun provideMoviesApi(retrofitBuilder: RetrofitBuilder) =
-        retrofitBuilder.create(MoviesApi::class.java)
-
-    @ApplicationScope
-    @Provides
-    fun provideMoviesDatabase(application: Application) = Database.getInstance<MoviesDatabase>(application)
-
-    @Provides
-    fun provideMoviesDao(moviesDatabase: MoviesDatabase) = moviesDatabase.getMoviesDao()
+    fun provideMoviesApi(
+        retrofitBuilder: RetrofitBuilder
+    ) = retrofitBuilder.create(MoviesApi::class.java)
 
     @Provides
     fun provideMoviesMapper() = MoviesMapper()

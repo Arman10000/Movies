@@ -1,4 +1,4 @@
-package android.example.feature_movies_screen.domain
+package android.example.feature_movies_screen.domain.useCase
 
 import android.example.core.item.MovieItem
 

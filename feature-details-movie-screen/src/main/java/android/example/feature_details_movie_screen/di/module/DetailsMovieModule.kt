@@ -7,10 +7,10 @@ import android.example.feature_details_movie_screen.data.api.DetailsMovieApi
 import android.example.feature_details_movie_screen.data.mapper.CommentsMovieMapper
 import android.example.feature_details_movie_screen.data.mapper.DetailsMovieMapper
 import android.example.feature_details_movie_screen.data.mapper.VideosMovieMapper
-import android.example.feature_details_movie_screen.data.repository.DetailsMovieRepository
+import android.example.feature_details_movie_screen.domain.repository.DetailsMovieRepository
 import android.example.feature_details_movie_screen.data.repository.DetailsMovieRepositoryImpl
-import android.example.feature_details_movie_screen.domain.DetailsMovieUseCase
-import android.example.feature_details_movie_screen.domain.DetailsMovieUseCaseImpl
+import android.example.feature_details_movie_screen.domain.useCase.DetailsMovieUseCase
+import android.example.feature_details_movie_screen.domain.useCase.DetailsMovieUseCaseImpl
 import android.example.feature_details_movie_screen.presentation.viewModel.DetailsMovieViewModel
 import dagger.Module
 import dagger.Provides

@@ -1,4 +1,4 @@
-package android.example.feature_details_movie_screen.data.repository
+package android.example.feature_details_movie_screen.domain.repository
 
 import android.example.core.item.MovieItem
 import android.example.feature_details_movie_screen.domain.item.CommentMovieItem

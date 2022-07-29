@@ -3,10 +3,10 @@ package android.example.feature_favourite_movies_screen.di.module
 import android.example.core.db.MoviesDao
 import android.example.core.di.annotation.ApplicationScope
 import android.example.feature_favourite_movies_screen.data.mapper.FavouriteMoviesMapper
-import android.example.feature_favourite_movies_screen.data.repository.FavouriteMoviesRepository
+import android.example.feature_favourite_movies_screen.domain.repository.FavouriteMoviesRepository
 import android.example.feature_favourite_movies_screen.data.repository.FavouriteMoviesRepositoryImpl
-import android.example.feature_favourite_movies_screen.domain.FavouriteMoviesUseCase
-import android.example.feature_favourite_movies_screen.domain.FavouriteMoviesUseCaseImpl
+import android.example.feature_favourite_movies_screen.domain.useCase.FavouriteMoviesUseCase
+import android.example.feature_favourite_movies_screen.domain.useCase.FavouriteMoviesUseCaseImpl
 import android.example.feature_favourite_movies_screen.presentation.viewModel.FavouriteMoviesViewModel
 import dagger.Module
 import dagger.Provides

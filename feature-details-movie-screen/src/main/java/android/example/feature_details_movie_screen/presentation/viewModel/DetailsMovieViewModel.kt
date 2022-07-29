@@ -5,7 +5,7 @@ import android.example.core.const.OPEN_BY_MOVIES
 import android.example.core.eventArgs.ThrowableEventArgs
 import android.example.core.item.MovieItem
 import android.example.core.viewModel.BaseViewModel
-import android.example.feature_details_movie_screen.domain.DetailsMovieUseCase
+import android.example.feature_details_movie_screen.domain.useCase.DetailsMovieUseCase
 import android.example.feature_details_movie_screen.domain.item.CommentMovieItem
 import android.example.feature_details_movie_screen.domain.item.VideoMovieItem
 import androidx.lifecycle.LiveData

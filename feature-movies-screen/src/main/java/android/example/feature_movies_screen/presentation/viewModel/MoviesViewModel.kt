@@ -5,7 +5,7 @@ import android.example.core.item.MovieItem
 import android.example.core.viewModel.BaseViewModel
 import android.example.feature_movies_screen.data.api.MoviesApi.Companion.SORT_BY_POPULARITY
 import android.example.feature_movies_screen.data.api.MoviesApi.Companion.SORT_BY_TOP_RATED
-import android.example.feature_movies_screen.domain.MoviesUseCase
+import android.example.feature_movies_screen.domain.useCase.MoviesUseCase
 import android.example.feature_movies_screen.presentation.enum.TypeSortEnum
 import android.example.feature_movies_screen.presentation.state.StateSelectedTypeSortMovies
 import androidx.lifecycle.LiveData

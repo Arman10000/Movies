@@ -4,6 +4,7 @@ import android.example.core.db.MoviesDao
 import android.example.core.item.MovieItem
 import android.example.feature_movies_screen.data.api.MoviesApi
 import android.example.feature_movies_screen.data.mapper.MoviesMapper
+import android.example.feature_movies_screen.domain.repository.MoviesRepository
 
 class MoviesRepositoryImpl(
     private val moviesApi: MoviesApi,

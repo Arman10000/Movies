@@ -1,4 +1,4 @@
-package android.example.feature_favourite_movies_screen.data.repository
+package android.example.feature_favourite_movies_screen.domain.repository
 
 import android.example.core.item.MovieItem
 

@@ -167,7 +167,6 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener, SearchView.OnQue
                     visibleItemCount,
                     showItemCount
                 )
-
             }
         })
 

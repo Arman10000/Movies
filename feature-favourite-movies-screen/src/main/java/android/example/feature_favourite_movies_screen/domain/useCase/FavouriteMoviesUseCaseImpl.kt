@@ -1,7 +1,7 @@
-package android.example.feature_favourite_movies_screen.domain
+package android.example.feature_favourite_movies_screen.domain.useCase
 
 import android.example.core.item.MovieItem
-import android.example.feature_favourite_movies_screen.data.repository.FavouriteMoviesRepository
+import android.example.feature_favourite_movies_screen.domain.repository.FavouriteMoviesRepository
 
 class FavouriteMoviesUseCaseImpl(
     private val FavouriteMoviesRepository: FavouriteMoviesRepository

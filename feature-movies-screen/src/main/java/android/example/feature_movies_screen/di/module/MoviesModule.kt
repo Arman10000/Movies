@@ -5,10 +5,10 @@ import android.example.core.db.MoviesDao
 import android.example.core.di.annotation.ApplicationScope
 import android.example.feature_movies_screen.data.api.MoviesApi
 import android.example.feature_movies_screen.data.mapper.MoviesMapper
-import android.example.feature_movies_screen.data.repository.MoviesRepository
+import android.example.feature_movies_screen.domain.repository.MoviesRepository
 import android.example.feature_movies_screen.data.repository.MoviesRepositoryImpl
-import android.example.feature_movies_screen.domain.MoviesUseCase
-import android.example.feature_movies_screen.domain.MoviesUseCaseImpl
+import android.example.feature_movies_screen.domain.useCase.MoviesUseCase
+import android.example.feature_movies_screen.domain.useCase.MoviesUseCaseImpl
 import android.example.feature_movies_screen.presentation.viewModel.MoviesViewModel
 import dagger.Module
 import dagger.Provides

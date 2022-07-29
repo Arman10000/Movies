@@ -1,7 +1,7 @@
-package android.example.feature_movies_screen.domain
+package android.example.feature_movies_screen.domain.useCase
 
 import android.example.core.item.MovieItem
-import android.example.feature_movies_screen.data.repository.MoviesRepository
+import android.example.feature_movies_screen.domain.repository.MoviesRepository
 
 class MoviesUseCaseImpl(
     private val moviesRepository: MoviesRepository

@@ -7,3 +7,7 @@ plugins {
 dependencies {
     implementation project(path: ':core')
 }
+
+android {
+    namespace 'android.example.feature_movies_screen'
+}

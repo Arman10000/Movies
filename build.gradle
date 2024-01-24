@@ -7,8 +7,8 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.4"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20"
+        classpath 'com.android.tools.build:gradle:8.0.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -19,11 +19,11 @@ subprojects {
     afterEvaluate { project ->
         if (project.plugins.findPlugin('android') ?: project.plugins.findPlugin('android-library')) {
             android {
-                compileSdk 31
+                compileSdk 33
 
                 defaultConfig {
-                    minSdk 21
-                    targetSdk 31
+                    minSdk 24
+                    targetSdk 33
                     versionCode 1
                     versionName "1.0"
 
@@ -39,12 +39,12 @@ subprojects {
                 }
 
                 compileOptions {
-                    sourceCompatibility JavaVersion.VERSION_1_8
-                    targetCompatibility JavaVersion.VERSION_1_8
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
                 }
 
                 kotlinOptions {
-                    jvmTarget = '1.8'
+                    jvmTarget = '17'
                 }
 
                 buildFeatures {
@@ -88,13 +88,13 @@ subprojects {
                     implementation "ru.ar2code.mutableliveevent:live-event:$mutable_live_event"
 
                     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-                    implementation 'androidx.core:core-ktx:1.7.0'
-                    implementation 'androidx.appcompat:appcompat:1.4.1'
-                    implementation 'com.google.android.material:material:1.6.0'
+                    implementation 'androidx.core:core-ktx:1.8.0'
+                    implementation 'androidx.appcompat:appcompat:1.6.1'
+                    implementation 'com.google.android.material:material:1.5.0'
                     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
                     testImplementation 'junit:junit:4.13.2'
-                    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-                    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+                    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+                    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
                 }
             }
         }

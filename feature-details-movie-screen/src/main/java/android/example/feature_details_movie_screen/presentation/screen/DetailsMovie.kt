@@ -65,7 +65,6 @@ class DetailsMovie : Fragment(R.layout.details_movie), View.OnClickListener {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.setGroupVisible(0, false)
-        Picasso
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

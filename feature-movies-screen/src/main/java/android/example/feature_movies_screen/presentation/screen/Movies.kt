@@ -80,7 +80,7 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener, SearchView.OnQue
 
     override fun onQueryTextChange(newText: String?) = false
 
-    override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+    override fun onMenuItemActionExpand(item: MenuItem): Boolean {
         menu.setGroupVisible(0, false)
         binding.switchSort.visibility = View.GONE
         binding.textPopularity.visibility = View.GONE
@@ -91,7 +91,7 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener, SearchView.OnQue
         return true
     }
 
-    override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+    override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
         menu.setGroupVisible(0, true)
         binding.switchSort.visibility = View.VISIBLE
         binding.textPopularity.visibility = View.VISIBLE

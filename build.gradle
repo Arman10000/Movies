@@ -55,7 +55,7 @@ subprojects {
                     def room_version = "2.4.2"
                     def retrofit_version = "2.9.0"
                     def coroutines_version = "1.6.0"
-                    def dagger_version = "2.41"
+                    def dagger_version = "2.50"
                     def navigation_version = "2.4.2"
                     def picasso_version = "2.71828"
                     def mutable_live_event = "1.0.2"

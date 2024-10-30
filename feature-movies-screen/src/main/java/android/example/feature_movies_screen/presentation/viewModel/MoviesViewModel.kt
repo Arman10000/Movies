@@ -1,6 +1,5 @@
 package android.example.feature_movies_screen.presentation.viewModel
 
-import android.example.core.eventArgs.ThrowableEventArgs
 import android.example.core.item.MovieItem
 import android.example.core.viewModel.BaseViewModel
 import android.example.feature_movies_screen.data.api.MoviesApi.Companion.SORT_BY_POPULARITY
@@ -39,7 +38,9 @@ class MoviesViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             _movies.postValue(moviesUseCase.getAllMoviesDB())
         }
-        setErrorInternetNotification(throwable)
+        viewModelScope.launch(Dispatchers.Main) {
+            setErrorInternetNotification(throwable)
+        }
     }
 
     fun ifFirstStartMovies() {
@@ -104,8 +105,8 @@ class MoviesViewModel(
         }
     }
 
-    private fun setErrorInternetNotification(error: Throwable) {
-        errorInternetNotificationBase.postValue(ThrowableEventArgs(error))
+    private suspend fun setErrorInternetNotification(error: Throwable) {
+        errorInternetNotificationBase.emit(error)
         progressBarBase.postValue(false)
         isErrorInternet = true
     }

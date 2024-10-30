@@ -2,7 +2,6 @@ package android.example.feature_details_movie_screen.presentation.viewModel
 
 import android.example.core.const.OPEN_BY_FAVOURITE_MOVIES
 import android.example.core.const.OPEN_BY_MOVIES
-import android.example.core.eventArgs.ThrowableEventArgs
 import android.example.core.item.MovieItem
 import android.example.core.viewModel.BaseViewModel
 import android.example.feature_details_movie_screen.domain.useCase.DetailsMovieUseCase
@@ -37,7 +36,9 @@ class DetailsMovieViewModel(
             postValueCommentsMovie()
             getMovieOpenBy()
         }
-        setErrorInternetNotification(throwable)
+        viewModelScope.launch(Dispatchers.Main) {
+            setErrorInternetNotification(throwable)
+        }
     }
 
     fun loadingVideosCommentsMovie(movieId: Int, openBy: String) {
@@ -88,8 +89,8 @@ class DetailsMovieViewModel(
         }
     }
 
-    private fun setErrorInternetNotification(error: Throwable) {
-        errorInternetNotificationBase.postValue(ThrowableEventArgs(error))
+    private suspend fun setErrorInternetNotification(error: Throwable) {
+        errorInternetNotificationBase.emit(error)
         progressBarBase.postValue(false)
     }
 

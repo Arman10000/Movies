@@ -19,9 +19,12 @@ import android.view.MenuInflater
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.util.*
 import javax.inject.Inject
 
@@ -113,10 +116,11 @@ class DetailsMovie : Fragment(R.layout.details_movie), View.OnClickListener {
             }
         }
 
-        viewModel.errorInternetNotification.observe(viewLifecycleOwner) {
-            it.handled = true
-            Snackbar.make(binding.root, R.string.error_internet, Snackbar.LENGTH_SHORT).show()
-        }
+        viewModel.errorInternetNotification
+            .onEach {
+                Snackbar.make(binding.root, R.string.error_internet, Snackbar.LENGTH_SHORT).show()
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.progressBar.observe(viewLifecycleOwner) {
             binding.progressBar.isVisible = it

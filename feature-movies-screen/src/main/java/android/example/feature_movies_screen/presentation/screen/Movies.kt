@@ -20,9 +20,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 
@@ -66,7 +69,7 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener, SearchView.OnQue
         if (isSearchOpen) {
             searchMenuItem.expandActionView()
             searchView.clearFocus()
-            getSearchAutoComplete(searchView).setText(searchQuery)
+//            getSearchAutoComplete(searchView).setText(searchQuery)
         }
     }
 
@@ -102,12 +105,12 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener, SearchView.OnQue
         return true
     }
 
-    private fun getSearchAutoComplete(search: SearchView): SearchView.SearchAutoComplete {
-        val l1 = search.getChildAt(0) as LinearLayout
-        val l2 = l1.getChildAt(2) as LinearLayout
-        val l3 = l2.getChildAt(1) as LinearLayout
-        return l3.getChildAt(0) as SearchView.SearchAutoComplete
-    }
+//    private fun getSearchAutoComplete(search: SearchView): SearchView.SearchAutoComplete {
+//        val l1 = search.getChildAt(0) as LinearLayout
+//        val l2 = l1.getChildAt(2) as LinearLayout
+//        val l3 = l2.getChildAt(1) as LinearLayout
+//        return l3.getChildAt(0) as SearchView.SearchAutoComplete
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -134,21 +137,22 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener, SearchView.OnQue
             val selectedTextColor = ContextCompat.getColor(requireContext(), R.color.teal_200)
             val notSelectedTextColor = ContextCompat.getColor(requireContext(), R.color.white)
 
-            binding.switchSort.isChecked = if (it.selectedSwitchSortState) {
+            if (it.selectedSwitchSortState) {
                 binding.textPopularity.setTextColor(notSelectedTextColor)
                 binding.textTopRated.setTextColor(selectedTextColor)
-                it.selectedSwitchSortState
             } else {
                 binding.textPopularity.setTextColor(selectedTextColor)
                 binding.textTopRated.setTextColor(notSelectedTextColor)
-                it.selectedSwitchSortState
             }
+
+            binding.switchSort.isChecked = it.selectedSwitchSortState
         }
 
-        viewModel.errorInternetNotification.observe(viewLifecycleOwner) {
-            it.handled = true
-            Snackbar.make(binding.root, R.string.error_internet, Snackbar.LENGTH_SHORT).show()
-        }
+        viewModel.errorInternetNotification
+            .onEach {
+                Snackbar.make(binding.root, R.string.error_internet, Snackbar.LENGTH_SHORT).show()
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.rvMovies.layoutManager = MyGridLayoutManager(requireContext())
 

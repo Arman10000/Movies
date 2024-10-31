@@ -21,9 +21,10 @@ class MoviesRepositoryImpl(
     )
 
     override fun getQueryMoviesApi(
-        query: String
+        query: String,
+        lang: String
     ): List<MovieItem> = moviesMapper.mapListMovieModelApiToListEntity(
-        moviesApi.getQueryMovies(query).execute()
+        moviesApi.getQueryMovies(query, lang).execute()
     )
 
     override suspend fun getAllMoviesDB(): List<MovieItem> =

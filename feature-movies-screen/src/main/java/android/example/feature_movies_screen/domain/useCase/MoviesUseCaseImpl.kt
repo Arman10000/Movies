@@ -23,8 +23,8 @@ class MoviesUseCaseImpl(
         }
     }
 
-    override suspend fun getQueryMoviesApi(query: String) {
-        val moviesQuery = moviesRepository.getQueryMoviesApi(query)
+    override suspend fun getQueryMoviesApi(query: String, lang: String) {
+        val moviesQuery = moviesRepository.getQueryMoviesApi(query, lang)
 
         moviesRepository.clearMoviesDB()
         moviesRepository.addMoviesDB(moviesQuery)

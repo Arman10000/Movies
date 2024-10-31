@@ -1,132 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:background="@color/black">
 
-    <TextView
-        style="@style/tvInfoLabelStyle"
-        android:id="@+id/tvLabelTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_info_label_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/infoTitle"
+            style="@style/infoTitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tv_info_label_title" />
+
+        <TextView
+            android:id="@+id/infoValue"
+            style="@style/infoValueStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="value" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/infoOriginalTitle"
+            style="@style/infoTitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tv_info_label_original" />
+
+        <TextView
+            android:id="@+id/infoOriginalValue"
+            style="@style/infoValueStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="value" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/infoRatingTitle"
+            style="@style/infoTitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tv_info_label_rating" />
+
+        <TextView
+            android:id="@+id/infoRatingValue"
+            style="@style/infoValueStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="value" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/infoReleaseDateTitle"
+            style="@style/infoTitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tv_info_label_release_date" />
+
+        <TextView
+            android:id="@+id/infoReleaseDateValue"
+            style="@style/infoValueStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="value" />
+    </LinearLayout>
 
     <TextView
-        style="@style/tvInfoStyle"
-        android:id="@+id/tvTitle"
-        android:layout_width="0dp"
+        android:id="@+id/infoDescriptionTitle"
+        style="@style/infoTitleStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="TextView" />
+        android:text="@string/tv_info_label_description" />
 
     <TextView
-        style="@style/tvInfoLabelStyle"
-        android:id="@+id/tvLabelTitleOriginal"
-        android:layout_width="wrap_content"
+        android:id="@+id/infoDescriptionValue"
+        style="@style/infoValueStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/tv_info_label_original"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLabelTitle" />
-
-    <TextView
-        style="@style/tvInfoStyle"
-        android:id="@+id/tvTitleOriginal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guidelineCenter"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        tools:text="TextView" />
-
-    <TextView
-        style="@style/tvInfoLabelStyle"
-        android:id="@+id/tvLabelRating"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_info_label_rating"
-        app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvLabelTitleOriginal" />
-
-    <TextView
-        style="@style/tvInfoStyle"
-        android:id="@+id/tvRating"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guidelineCenter"
-        app:layout_constraintTop_toBottomOf="@id/tvTitleOriginal"
-        tools:text="TextView" />
-
-    <TextView
-        style="@style/tvInfoLabelStyle"
-        android:id="@+id/tvLabelReleaseDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_info_label_release_date"
-        app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvLabelRating" />
-
-    <TextView
-        style="@style/tvInfoStyle"
-        android:id="@+id/tvReleaseDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guidelineCenter"
-        app:layout_constraintTop_toBottomOf="@id/tvRating"
-        tools:text="TextView" />
-
-    <TextView
-        style="@style/tvInfoLabelStyle"
-        android:id="@+id/tvLabelDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_info_label_description"
-        app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvLabelReleaseDate" />
-
-    <TextView
-        android:id="@+id/tvDescription"
-        style="@style/tvInfoStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvLabelDescription"
-        tools:text="TextView" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineCenter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        tools:text="value" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvVideos"
-        android:layout_width="0dp"
+        android:id="@+id/listVideos"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDescription" />
+        android:nestedScrollingEnabled="false" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_comments"
-        android:layout_width="0dp"
+        android:id="@+id/listComments"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rvVideos" />
+        android:nestedScrollingEnabled="false" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

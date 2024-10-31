@@ -69,14 +69,14 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener, SearchView.OnQue
         if (isSearchOpen) {
             searchMenuItem.expandActionView()
             searchView.clearFocus()
+            searchView.setQuery(searchQuery, false)
         }
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        query?.let {
-            searchQuery = it
-            viewModel.getQueryMovies(it)
-        }
+        if (query == null) return true
+        searchQuery = query
+        viewModel.getQueryMovies(query)
         return true
     }
 

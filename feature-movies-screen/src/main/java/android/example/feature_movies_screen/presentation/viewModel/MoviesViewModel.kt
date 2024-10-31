@@ -112,11 +112,11 @@ class MoviesViewModel(
     }
 
     fun getQueryMovies(query: String) {
+        isLoading = true
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             progressBarBase.postValue(true)
-            isLoading = true
 
-            moviesUseCase.getQueryMoviesApi(query)
+            moviesUseCase.getQueryMoviesApi(query, lang)
 
             _movies.postValue(moviesUseCase.getAllMoviesDB())
 

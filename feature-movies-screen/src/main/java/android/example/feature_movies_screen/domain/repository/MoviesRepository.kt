@@ -6,7 +6,7 @@ interface MoviesRepository {
 
     fun getMoviesApi(sortBy: String, page: Int, lang: String): List<MovieItem>
 
-    fun getQueryMoviesApi(query: String): List<MovieItem>
+    fun getQueryMoviesApi(query: String, lang: String): List<MovieItem>
 
     suspend fun getAllMoviesDB(): List<MovieItem>
 

@@ -32,6 +32,7 @@ interface MoviesApi {
 
     @GET("$BASE_URL_QUERY_MOVIES?$PARAMS_API_KEY=$API_KEY")
     fun getQueryMovies(
-        @Query(PARAMS_QUERY) query: String
+        @Query(PARAMS_QUERY) query: String,
+        @Query(PARAMS_LANGUAGE) lang: String
     ): Call<MovieList>
 }

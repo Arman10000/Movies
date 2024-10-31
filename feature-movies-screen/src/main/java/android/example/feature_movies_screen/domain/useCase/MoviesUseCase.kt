@@ -8,5 +8,5 @@ interface MoviesUseCase {
 
     suspend fun startLoadingMovies(sortBy: String, page: Int, lang: String)
 
-    suspend fun getQueryMoviesApi(query: String)
+    suspend fun getQueryMoviesApi(query: String, lang: String)
 }

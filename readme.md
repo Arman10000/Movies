@@ -2,4 +2,4 @@
 
 ## Clean Architecture, MVVM, Coroutines, Dagger, Room, Retrofit, Picasso, Navigation Component
 
-![](https://i.ibb.co/5jzXmP0/photo-2022-06-22-21-01-11.jpg) ![](https://i.ibb.co/S6MTQzf/photo-2022-06-22-21-01-03.jpg) ![](https://i.ibb.co/ryZf8c3/photo-2022-06-22-21-01-12.jpg)
+![](https://ibb.co.com/TMP8tG5) ![](https://ibb.co.com/mT92Z0b) ![](https://ibb.co.com/M7b4GmL)

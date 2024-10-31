@@ -1,5 +1,6 @@
 package android.example.feature_details_movie_screen.presentation.screen
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.example.core.item.MovieItem
@@ -87,8 +88,8 @@ class DetailsMovie : Fragment(R.layout.details_movie), View.OnClickListener {
         }
 
         binding.ivAddToFavourite.setOnClickListener(this)
-        binding.movieInfo.rvVideos.layoutManager = LinearLayoutManager(requireContext())
-        binding.movieInfo.rvComments.layoutManager = LinearLayoutManager(requireContext())
+        binding.movieInfo.listVideos.layoutManager = LinearLayoutManager(requireContext())
+        binding.movieInfo.listComments.layoutManager = LinearLayoutManager(requireContext())
 
         val commentsMovieAdapter = CommentsMovieAdapter()
         val videoMovieAdapter = VideoMovieAdapter(
@@ -103,8 +104,8 @@ class DetailsMovie : Fragment(R.layout.details_movie), View.OnClickListener {
             }
         )
 
-        binding.movieInfo.rvComments.adapter = commentsMovieAdapter
-        binding.movieInfo.rvVideos.adapter = videoMovieAdapter
+        binding.movieInfo.listComments.adapter = commentsMovieAdapter
+        binding.movieInfo.listVideos.adapter = videoMovieAdapter
 
         viewModel.movie.observe(viewLifecycleOwner) { movieItem ->
             _movieItem = movieItem
@@ -154,10 +155,11 @@ class DetailsMovie : Fragment(R.layout.details_movie), View.OnClickListener {
     private fun initMovie() {
         Picasso.get().load(movieItem.bigPoster).placeholder(R.drawable.ic_image)
             .into(binding.ivBigPoster)
-        binding.movieInfo.tvTitle.text = movieItem.title
-        binding.movieInfo.tvTitleOriginal.text = movieItem.titleOriginal
-        binding.movieInfo.tvDescription.text = movieItem.description
-        binding.movieInfo.tvRating.text = movieItem.rating.toString()
-        binding.movieInfo.tvReleaseDate.text = movieItem.releaseDate
+        binding.movieInfo.infoValue.text = movieItem.title
+        binding.movieInfo.infoOriginalValue.text = movieItem.titleOriginal
+        binding.movieInfo.infoRatingValue.text =
+            String.format(Locale.getDefault(), "%.1f", movieItem.rating).replace(',', '.')
+        binding.movieInfo.infoReleaseDateValue.text = movieItem.releaseDate
+        binding.movieInfo.infoDescriptionValue.text = movieItem.description
     }
 }

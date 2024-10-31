@@ -69,7 +69,6 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener, SearchView.OnQue
         if (isSearchOpen) {
             searchMenuItem.expandActionView()
             searchView.clearFocus()
-//            getSearchAutoComplete(searchView).setText(searchQuery)
         }
     }
 
@@ -104,13 +103,6 @@ class Movies : Fragment(R.layout.movies), View.OnClickListener, SearchView.OnQue
         viewModel.getMoviesPageOne()
         return true
     }
-
-//    private fun getSearchAutoComplete(search: SearchView): SearchView.SearchAutoComplete {
-//        val l1 = search.getChildAt(0) as LinearLayout
-//        val l2 = l1.getChildAt(2) as LinearLayout
-//        val l3 = l2.getChildAt(1) as LinearLayout
-//        return l3.getChildAt(0) as SearchView.SearchAutoComplete
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
